@@ -1,5 +1,5 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
-import { A as ApplicationLogo } from "./ApplicationLogo-C3ZfqySW.js";
+import { A as ApplicationLogo } from "./ApplicationLogo-DcnSAahv.js";
 import { Transition } from "@headlessui/react";
 import { Link, usePage } from "@inertiajs/react";
 import { useState, createContext, useContext } from "react";
@@ -118,7 +118,7 @@ function AuthenticatedLayout({ header, children }) {
     /* @__PURE__ */ jsxs("nav", { className: "border-b border-[var(--border)] bg-[var(--card)]", children: [
       /* @__PURE__ */ jsx("div", { className: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "flex h-16 justify-between", children: [
         /* @__PURE__ */ jsxs("div", { className: "flex", children: [
-          /* @__PURE__ */ jsx("div", { className: "flex shrink-0 items-center", children: /* @__PURE__ */ jsx(Link, { href: "/", children: /* @__PURE__ */ jsx(ApplicationLogo, { className: "block h-12 w-auto" }) }) }),
+          /* @__PURE__ */ jsx("div", { className: "flex shrink-0 items-center", children: /* @__PURE__ */ jsx(Link, { href: "/", children: /* @__PURE__ */ jsx(ApplicationLogo, { logoSize: "h-10 w-10", className: "block" }) }) }),
           /* @__PURE__ */ jsx("div", { className: "hidden space-x-8 sm:-my-px sm:ms-10 sm:flex", children: /* @__PURE__ */ jsx(
             NavLink,
             {

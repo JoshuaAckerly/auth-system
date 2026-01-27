@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AuthenticatedLayout } from "./AuthenticatedLayout-DXpSoCuW.js";
+import { A as AuthenticatedLayout } from "./AuthenticatedLayout-h2Lqhn0P.js";
 import { usePage, Head } from "@inertiajs/react";
-import "./ApplicationLogo-C3ZfqySW.js";
+import "./ApplicationLogo-DcnSAahv.js";
 import "react";
 import "@headlessui/react";
 function Dashboard() {

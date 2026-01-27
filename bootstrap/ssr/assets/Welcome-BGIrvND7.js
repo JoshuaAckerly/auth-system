@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { Head, Link } from "@inertiajs/react";
-import { A as ApplicationLogo } from "./ApplicationLogo-C3ZfqySW.js";
+import { A as ApplicationLogo } from "./ApplicationLogo-DcnSAahv.js";
 import "react";
 function Welcome({ auth }) {
   return /* @__PURE__ */ jsxs(Fragment, { children: [

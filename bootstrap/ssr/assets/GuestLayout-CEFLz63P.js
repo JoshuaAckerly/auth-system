@@ -1,5 +1,5 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as ApplicationLogo } from "./ApplicationLogo-C3ZfqySW.js";
+import { A as ApplicationLogo } from "./ApplicationLogo-DcnSAahv.js";
 import { Link } from "@inertiajs/react";
 function GuestLayout({ children }) {
   return /* @__PURE__ */ jsxs("div", { className: "flex min-h-screen flex-col items-center bg-[var(--background)] pt-6 sm:justify-center sm:pt-0", children: [
