@@ -1,10 +1,11 @@
 
-export default function ApplicationLogo(props) {
+import React from 'react';
+
+export default function ApplicationLogo({ logoSize = 'h-10 w-10', containerClasses = '' }) {
+    const cdn = import.meta.env.VITE_ASSET_URL;
     return (
-        <img
-            src="/logo.svg"
-            alt="GraveYardJokes Studios Logo"
-            className={props.className || "h-20 w-20"}
-        />
+        <div className={`flex ${containerClasses}`}>
+            <img src={`${cdn}/images/GraveYardJokesLogoJester.svg`} alt="GraveYardJokes Studios Logo" className={logoSize} />
+        </div>
     );
 }

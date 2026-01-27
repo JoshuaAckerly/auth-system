@@ -1,10 +1,10 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { T as TextInput, I as InputError } from "./TextInput-BP-vnUns.js";
 import { P as PrimaryButton } from "./PrimaryButton-DgVfVBwo.js";
-import { G as GuestLayout } from "./GuestLayout-Bc4hyNWP.js";
+import { G as GuestLayout } from "./GuestLayout-yHOEzIk1.js";
 import { useForm, Head } from "@inertiajs/react";
 import "react";
-import "./ApplicationLogo-BEEyYJ6W.js";
+import "./ApplicationLogo-C3ZfqySW.js";
 function ForgotPassword({ status }) {
   const { data, setData, post, processing, errors } = useForm({
     email: ""

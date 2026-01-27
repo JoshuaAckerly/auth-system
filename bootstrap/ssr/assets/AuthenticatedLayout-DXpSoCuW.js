@@ -1,5 +1,5 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
-import { A as ApplicationLogo } from "./ApplicationLogo-BEEyYJ6W.js";
+import { A as ApplicationLogo } from "./ApplicationLogo-C3ZfqySW.js";
 import { Transition } from "@headlessui/react";
 import { Link, usePage } from "@inertiajs/react";
 import { useState, createContext, useContext } from "react";

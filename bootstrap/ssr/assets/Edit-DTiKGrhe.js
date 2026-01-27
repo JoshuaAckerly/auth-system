@@ -1,12 +1,12 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AuthenticatedLayout } from "./AuthenticatedLayout-DQqWlTsP.js";
+import { A as AuthenticatedLayout } from "./AuthenticatedLayout-DXpSoCuW.js";
 import { Head } from "@inertiajs/react";
 import DeleteUserForm from "./DeleteUserForm-Hy-SY24R.js";
 import UpdatePasswordForm from "./UpdatePasswordForm-zvD8TgBd.js";
 import UpdateProfileInformation from "./UpdateProfileInformationForm-DmOzctMU.js";
-import "./ApplicationLogo-BEEyYJ6W.js";
-import "@headlessui/react";
+import "./ApplicationLogo-C3ZfqySW.js";
 import "react";
+import "@headlessui/react";
 import "./TextInput-BP-vnUns.js";
 import "./InputLabel-CE_n4Upz.js";
 import "./PrimaryButton-DgVfVBwo.js";

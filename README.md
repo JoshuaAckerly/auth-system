@@ -57,3 +57,39 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## Integration with Other Projects
+
+This auth-system is the central authentication and user management service for all related projects in the polyrepo (e.g., graveyardjokes, hollowpress, lunarblood, etc.).
+
+### Features
+- Centralized login and registration for all users
+- API endpoints for user and purchase management
+- Purchases from other projects (e.g., PayPal payments from graveyardjokes) are recorded here
+- Purchases are visible on the user dashboard (via Inertia.js props)
+- Secure, scalable, and ready for multi-project SSO
+
+### Purchase Flow
+- External projects POST purchase/payment details to `/api/purchases` (see API docs)
+- Purchases are linked to the authenticated user
+- Dashboard displays all purchases for the logged-in user
+
+### Integration Steps
+1. Configure all frontend projects to use this auth-system for login/registration (via API or Inertia)
+2. On successful payment in external projects, POST purchase details to `/api/purchases` with the user's token
+3. Purchases will appear on the dashboard for the user
+
+---
+
+## Test Server Setup
+
+For unified test server deployment, see [../TEST_DEPLOYMENT.md](../TEST_DEPLOYMENT.md) for a complete guide.
+
+**Quick summary:**
+- Prepare Ubuntu VM, configure DNS for all subdomains
+- Use `setup-all-test-servers.sh` to install dependencies, clone repos, set up .env, run migrations, build assets, and configure Nginx/SSL
+- Visit each subdomain to verify
+
+For full details and troubleshooting, always refer to the main TEST_DEPLOYMENT.md.
