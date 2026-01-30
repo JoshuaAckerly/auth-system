@@ -16,8 +16,13 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
+        // Store return_url in session if provided
+        $returnUrl = $request->query('return_url');
+        if ($returnUrl && filter_var($returnUrl, FILTER_VALIDATE_URL)) {
+            $request->session()->put('return_url', $returnUrl);
+        }
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
@@ -30,9 +35,13 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
+        // Redirect to return_url if present and valid, then forget it
+        $returnUrl = $request->session()->pull('return_url');
+        if ($returnUrl && filter_var($returnUrl, FILTER_VALIDATE_URL)) {
+            return redirect()->away($returnUrl);
+        }
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
