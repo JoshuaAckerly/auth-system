@@ -50,7 +50,7 @@ echo "🔒 Setting permissions..."
 sudo mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache
 sudo chown -R www-data:www-data storage bootstrap/cache
 sudo find storage bootstrap/cache -type d -exec chmod 775 {} \;
-sudo find storage bootstrap/cache -type f -exec chmod 664 {} \;
+sudo find storage bootstrap/cache -type f ! -name '.gitignore' -exec chmod 664 {} \;
 
 # Cache Laravel artifacts as the web server user
 echo "⚡ Optimizing Laravel..."
