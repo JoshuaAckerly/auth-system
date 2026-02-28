@@ -83,6 +83,29 @@ This auth-system is the central authentication and user management service for a
 
 ---
 
+## Testing & Coverage
+
+### Prerequisites
+- MySQL running locally
+- Test database created (default: `auth_system_test`)
+- PHPUnit DB test env configured in `phpunit.xml`
+- Xdebug installed for coverage reporting
+
+### Run Tests
+- Full Unit + Feature suite:
+	- `php artisan test`
+- Focused tests (example):
+	- `php artisan test --filter=Api`
+
+### Run Coverage
+- `XDEBUG_MODE=coverage php artisan test --coverage`
+
+### Current Baseline
+- Full suite passes locally
+- Coverage baseline: `100.0%` total
+
+---
+
 ## Test Server Setup
 
 For unified test server deployment, see [../docs/standards/TEST_DEPLOYMENT.md](../docs/standards/TEST_DEPLOYMENT.md) for a complete guide.
