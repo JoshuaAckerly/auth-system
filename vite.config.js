@@ -37,6 +37,10 @@ export default defineConfig(({ mode }) => {
 
     return {
         server,
+        define: {
+            __INERTIA_SSR_PORT__: JSON.stringify(env.INERTIA_SSR_PORT || ''),
+            __INERTIA_SSR_URL__: JSON.stringify(env.INERTIA_SSR_URL || ''),
+        },
         plugins: [
             laravel({
                 input: 'resources/js/app.jsx',

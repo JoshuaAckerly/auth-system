@@ -33,10 +33,11 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
+                'is_admin' => $request->user()?->email === config('app.admin_email'),
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
-                'location' => $request->url(),
+                'location' => $request->fullUrl(),
             ],
         ]);
     }
