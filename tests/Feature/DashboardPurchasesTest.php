@@ -17,15 +17,14 @@ class DashboardPurchasesTest extends TestCase
         $user = User::factory()->create();
         $purchases = Purchase::factory()->count(2)->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->get('/dashboard', ['Accept' => 'application/json']);
+        $response = $this->actingAs($user)->get('/dashboard');
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'user',
-            'purchases',
-        ]);
-        $this->assertCount(2, $response->json('purchases'));
-        $this->assertEquals($purchases[0]->item, $response->json('purchases.0.item'));
-        $this->assertEquals($purchases[1]->item, $response->json('purchases.1.item'));
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard')
+            ->has('purchases', 2)
+            ->where('purchases.0.item', $purchases[0]->item)
+            ->where('purchases.1.item', $purchases[1]->item)
+        );
     }
 }
