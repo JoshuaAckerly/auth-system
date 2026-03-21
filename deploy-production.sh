@@ -32,15 +32,6 @@ npm ci --production=false
 echo "🎨 Building frontend assets and SSR bundle..."
 npm run build:ssr
 
-# Ensure SSR environment values exist
-if ! grep -q "^INERTIA_SSR_PORT=" .env; then
-    echo "INERTIA_SSR_PORT=$SSR_PORT" >> .env
-fi
-
-if ! grep -q "^INERTIA_SSR_ENABLED=" .env; then
-    echo "INERTIA_SSR_ENABLED=true" >> .env
-fi
-
 # Run database migrations
 echo "🗄️ Running database migrations..."
 php artisan migrate --force
@@ -63,27 +54,17 @@ sudo -u www-data php artisan event:cache
 echo "🔄 Restarting PHP-FPM..."
 sudo systemctl reload php${PHP_VERSION}-fpm
 
-# Resolve SSR bundle path
-SSR_BUNDLE=""
-for candidate in bootstrap/ssr/ssr.js bootstrap/ssr/ssr.mjs bootstrap/ssr/app.js public/js/ssr.js; do
-    if [ -f "$candidate" ]; then
-        SSR_BUNDLE="$candidate"
-        break
-    fi
-done
-
 # Manage SSR process with PM2
 echo "🌟 Managing SSR server with PM2..."
-if [ -n "$SSR_BUNDLE" ]; then
-    if pm2 list | grep -q "$PROJECT_NAME-ssr"; then
-        pm2 restart "$PROJECT_NAME-ssr"
-    else
-        pm2 start "$SSR_BUNDLE" --name "$PROJECT_NAME-ssr" -- --port=$SSR_PORT
-        pm2 save
-    fi
+if pm2 list | grep -q "$PROJECT_NAME-ssr"; then
+    pm2 restart "$PROJECT_NAME-ssr" --update-env || {
+        pm2 delete "$PROJECT_NAME-ssr" >/dev/null 2>&1 || true
+        pm2 start bootstrap/ssr/ssr.js --name "$PROJECT_NAME-ssr" -- --port=$SSR_PORT
+    }
 else
-    echo "⚠️ No SSR bundle found. Skipping PM2 SSR start/restart."
+    pm2 start bootstrap/ssr/ssr.js --name "$PROJECT_NAME-ssr" -- --port=$SSR_PORT
 fi
+pm2 save
 
 # Restart queue workers if configured
 if grep -q "QUEUE_CONNECTION=redis\|QUEUE_CONNECTION=database" .env; then
@@ -93,4 +74,5 @@ fi
 
 echo ""
 echo "✅ Production deployment completed successfully!"
-echo "🔧 SSR configured on port: $SSR_PORT"
+echo "🌐 Site: https://auth-system.graveyardjokes.com"
+echo "🔧 SSR running on port: $SSR_PORT"
