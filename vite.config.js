@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
         // default: local/development
         server = {
             port: 8088,
-            host: '10.0.1.30',
+            host: '0.0.0.0',
             origin: 'http://auth-system.graveyardjokes.local:8088',
             cors: {
                 origin: 'http://auth-system.graveyardjokes.local',
