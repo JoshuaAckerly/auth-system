@@ -26,4 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+use App\Http\Controllers\Admin\AdminMessageController;
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/create', [AdminMessageController::class, 'create'])->name('messages.create');
+    Route::post('/messages', [AdminMessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+});
+
 require __DIR__.'/auth.php';
