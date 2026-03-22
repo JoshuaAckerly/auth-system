@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Email
+    |--------------------------------------------------------------------------
+    |
+    | The email address of the admin user who can access the admin panel.
+    |
+    */
+
+    'admin_email' => env('ADMIN_EMAIL'),
+
 ];

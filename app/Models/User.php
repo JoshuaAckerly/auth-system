@@ -8,11 +8,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * Send the password reset notification.
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -54,5 +63,21 @@ class User extends Authenticatable
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    /**
+     * Get admin messages targeted to this user (individual + broadcasts).
+     */
+    public function adminMessages()
+    {
+        return AdminMessage::query()->forUser($this->id)->latest();
+    }
+
+    /**
+     * Get unread admin messages for this user.
+     */
+    public function unreadAdminMessages()
+    {
+        return AdminMessage::query()->unreadFor($this->id);
     }
 }
