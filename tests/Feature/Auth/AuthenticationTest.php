@@ -42,7 +42,7 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
-    public function test_users_are_redirected_to_return_url_after_login_when_present(): void
+    public function test_return_url_is_cleared_from_session_after_login(): void
     {
         $user = User::factory()->create();
         $returnUrl = 'https://example.com/after-login';
@@ -53,7 +53,8 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect($returnUrl);
+        // Server redirects to dashboard; frontend handles cross-origin redirect via window.location
+        $response->assertRedirect(route('dashboard', absolute: false));
         $response->assertSessionMissing('return_url');
     }
 

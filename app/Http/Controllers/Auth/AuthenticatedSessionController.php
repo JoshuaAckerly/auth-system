@@ -18,7 +18,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(Request $request): Response
     {
-        // Store return_url in session if provided
         $returnUrl = $request->query('return_url');
         if ($returnUrl && filter_var($returnUrl, FILTER_VALIDATE_URL)) {
             $request->session()->put('return_url', $returnUrl);
@@ -26,6 +25,7 @@ class AuthenticatedSessionController extends Controller
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'returnUrl' => $request->session()->get('return_url'),
         ]);
     }
 
@@ -37,11 +37,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        // Redirect to return_url if present and valid, then forget it
-        $returnUrl = $request->session()->pull('return_url');
-        if ($returnUrl && filter_var($returnUrl, FILTER_VALIDATE_URL)) {
-            return redirect()->away($returnUrl);
-        }
+        // Pull return_url so the frontend can handle the cross-origin redirect
+        $request->session()->pull('return_url');
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

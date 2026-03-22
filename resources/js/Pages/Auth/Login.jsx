@@ -6,7 +6,7 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, canResetPassword, returnUrl }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -17,6 +17,11 @@ export default function Login({ status, canResetPassword }) {
         e.preventDefault();
 
         post(route('login'), {
+            onSuccess: () => {
+                if (returnUrl) {
+                    window.location.href = returnUrl;
+                }
+            },
             onFinish: () => reset('password'),
         });
     };
