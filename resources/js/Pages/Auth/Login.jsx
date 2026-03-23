@@ -17,11 +17,6 @@ export default function Login({ status, canResetPassword, returnUrl }) {
         e.preventDefault();
 
         post(route('login'), {
-            onSuccess: () => {
-                if (returnUrl) {
-                    window.location.href = returnUrl;
-                }
-            },
             onFinish: () => reset('password'),
         });
     };
