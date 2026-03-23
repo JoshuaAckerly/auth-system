@@ -31,12 +31,20 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
                                 {usePage().props.auth.is_admin && (
-                                    <NavLink
-                                        href={route('admin.messages.index')}
-                                        active={route().current('admin.messages.*')}
-                                    >
-                                        Messages
-                                    </NavLink>
+                                    <>
+                                        <NavLink
+                                            href={route('admin.messages.index')}
+                                            active={route().current('admin.messages.*')}
+                                        >
+                                            Messages
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('admin.analytics')}
+                                            active={route().current('admin.analytics')}
+                                        >
+                                            Analytics
+                                        </NavLink>
+                                    </>
                                 )}
                             </div>
                         </div>
@@ -143,12 +151,20 @@ export default function AuthenticatedLayout({ header, children }) {
                             Dashboard
                         </ResponsiveNavLink>
                         {usePage().props.auth.is_admin && (
-                            <ResponsiveNavLink
-                                href={route('admin.messages.index')}
-                                active={route().current('admin.messages.*')}
-                            >
-                                Messages
-                            </ResponsiveNavLink>
+                            <>
+                                <ResponsiveNavLink
+                                    href={route('admin.messages.index')}
+                                    active={route().current('admin.messages.*')}
+                                >
+                                    Messages
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.analytics')}
+                                    active={route().current('admin.analytics')}
+                                >
+                                    Analytics
+                                </ResponsiveNavLink>
+                            </>
                         )}
                     </div>
 

@@ -27,12 +27,15 @@ Route::middleware('auth')->group(function () {
 });
 
 use App\Http\Controllers\Admin\AdminMessageController;
+use App\Http\Controllers\Admin\AnalyticsController;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/create', [AdminMessageController::class, 'create'])->name('messages.create');
     Route::post('/messages', [AdminMessageController::class, 'store'])->name('messages.store');
     Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
 });
 
 require __DIR__.'/auth.php';
