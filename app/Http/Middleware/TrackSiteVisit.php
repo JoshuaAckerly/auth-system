@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Jobs\LookupVisitLocation;
 use App\Models\SiteVisit;
 use Closure;
 use Illuminate\Http\Request;
@@ -22,14 +23,17 @@ class TrackSiteVisit
         $response = $next($request);
 
         if ($this->shouldTrack($request)) {
-            SiteVisit::create([
+            $ip = $request->ip();
+            $visit = SiteVisit::create([
                 'user_id'    => $request->user()?->id,
-                'ip_address' => $request->ip(),
+                'ip_address' => $ip,
                 'user_agent' => $request->userAgent(),
                 'path'       => '/' . ltrim($request->path(), '/'),
                 'referer'    => $request->headers->get('referer'),
                 'created_at' => now(),
             ]);
+
+            LookupVisitLocation::dispatch($visit->id, $ip);
         }
 
         return $response;

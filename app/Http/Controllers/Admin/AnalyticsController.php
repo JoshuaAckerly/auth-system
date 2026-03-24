@@ -55,6 +55,19 @@ class AnalyticsController extends Controller
             ->limit(10)
             ->get();
 
+        // Top 10 cities last 30 days
+        $topCities = SiteVisit::select(
+                'city',
+                'country',
+                DB::raw('COUNT(*) as count')
+            )
+            ->where('created_at', '>=', $thirtyDaysAgo)
+            ->whereNotNull('city')
+            ->groupBy('city', 'country')
+            ->orderByDesc('count')
+            ->limit(10)
+            ->get();
+
         // Recent 50 visits with optional user info
         $recentVisits = SiteVisit::with('user:id,name,email')
             ->orderByDesc('created_at')
@@ -65,6 +78,9 @@ class AnalyticsController extends Controller
                 'user_name'  => $v->user?->name,
                 'user_email' => $v->user?->email,
                 'ip_address' => $v->ip_address,
+                'city'       => $v->city,
+                'region'     => $v->region,
+                'country'    => $v->country,
                 'path'       => $v->path,
                 'browser'    => $v->browser,
                 'referer'    => $v->referer,
@@ -81,6 +97,7 @@ class AnalyticsController extends Controller
             ],
             'dailyChart'   => $dailyChart,
             'topPages'     => $topPages,
+            'topCities'    => $topCities,
             'recentVisits' => $recentVisits,
         ]);
     }
