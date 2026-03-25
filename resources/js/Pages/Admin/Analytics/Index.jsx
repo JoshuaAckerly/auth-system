@@ -38,7 +38,7 @@ function BarChart({ data }) {
     );
 }
 
-export default function Index({ stats, dailyChart, topPages, topCities, recentVisits }) {
+export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits }) {
     return (
         <AuthenticatedLayout
             header={
@@ -64,6 +64,31 @@ export default function Index({ stats, dailyChart, topPages, topCities, recentVi
                             sub={`${stats.visitsLast30Days > 0 ? Math.round((stats.loggedInLast30 / stats.visitsLast30Days) * 100) : 0}% of period`}
                         />
                     </div>
+
+                    {/* Visits by Site */}
+                    {visitsByHost.length > 0 && (
+                        <div className="overflow-hidden rounded-lg bg-white p-6 shadow-sm">
+                            <h3 className="mb-4 text-sm font-medium text-gray-700">Visits by Site (30d)</h3>
+                            <div className="flex flex-wrap gap-3">
+                                {visitsByHost.map((h) => {
+                                    const total = visitsByHost.reduce((s, x) => s + parseInt(x.count), 0);
+                                    const pct = total > 0 ? Math.round((parseInt(h.count) / total) * 100) : 0;
+                                    return (
+                                        <div key={h.host} className="flex flex-1 min-w-[160px] flex-col rounded-lg border border-gray-200 p-4">
+                                            <span className="truncate text-sm font-medium text-gray-800">{h.host ?? 'unknown'}</span>
+                                            <div className="mt-2 h-1.5 w-full rounded-full bg-gray-100">
+                                                <div className="h-1.5 rounded-full bg-indigo-400" style={{ width: `${pct}%` }} />
+                                            </div>
+                                            <div className="mt-1 flex justify-between text-xs text-gray-400">
+                                                <span>{parseInt(h.count).toLocaleString()} visits</span>
+                                                <span>{pct}%</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Daily chart */}
                     <div className="overflow-hidden rounded-lg bg-white p-6 shadow-sm">
@@ -142,6 +167,9 @@ export default function Index({ stats, dailyChart, topPages, topCities, recentVi
                                                 Visitor
                                             </th>
                                             <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                                Site
+                                            </th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                                 Location
                                             </th>
                                             <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -170,6 +198,9 @@ export default function Index({ stats, dailyChart, topPages, topCities, recentVi
                                                     ) : (
                                                         <span className="text-sm text-gray-400">Anonymous</span>
                                                     )}
+                                                </td>
+                                                <td className="max-w-[160px] truncate px-4 py-3 text-xs text-gray-500">
+                                                    {v.host ?? '—'}
                                                 </td>
                                                 <td className="px-4 py-3">
                                                     {v.city ? (

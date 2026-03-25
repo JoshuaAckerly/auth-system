@@ -68,6 +68,13 @@ class AnalyticsController extends Controller
             ->limit(10)
             ->get();
 
+        // Visits per site/host last 30 days
+        $visitsByHost = SiteVisit::select('host', DB::raw('COUNT(*) as count'))
+            ->where('created_at', '>=', $thirtyDaysAgo)
+            ->groupBy('host')
+            ->orderByDesc('count')
+            ->get();
+
         // Recent 50 visits with optional user info
         $recentVisits = SiteVisit::with('user:id,name,email')
             ->orderByDesc('created_at')
@@ -77,6 +84,7 @@ class AnalyticsController extends Controller
                 'id'         => $v->id,
                 'user_name'  => $v->user?->name,
                 'user_email' => $v->user?->email,
+                'host'       => $v->host,
                 'ip_address' => $v->ip_address,
                 'city'       => $v->city,
                 'region'     => $v->region,
@@ -95,9 +103,10 @@ class AnalyticsController extends Controller
                 'uniqueIpsLast30'  => $uniqueIpsLast30,
                 'loggedInLast30'   => $loggedInLast30,
             ],
-            'dailyChart'   => $dailyChart,
-            'topPages'     => $topPages,
-            'topCities'    => $topCities,
+            'dailyChart'    => $dailyChart,
+            'topPages'      => $topPages,
+            'topCities'     => $topCities,
+            'visitsByHost'  => $visitsByHost,
             'recentVisits' => $recentVisits,
         ]);
     }

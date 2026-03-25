@@ -26,6 +26,7 @@ class TrackSiteVisit
             $ip = $request->ip();
             $visit = SiteVisit::create([
                 'user_id'    => $request->user()?->id,
+                'host'       => $request->getHost(),
                 'ip_address' => $ip,
                 'user_agent' => $request->userAgent(),
                 'path'       => '/' . ltrim($request->path(), '/'),

@@ -11,6 +11,7 @@ class SiteVisit extends Model
 
     protected $fillable = [
         'user_id',
+        'host',
         'ip_address',
         'city',
         'region',

@@ -134,4 +134,6 @@ return [
 
     'admin_email' => env('ADMIN_EMAIL'),
 
+    'track_visit_token' => env('TRACK_VISIT_TOKEN'),
+
 ];
