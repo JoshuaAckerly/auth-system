@@ -12,24 +12,25 @@ function StatCard({ label, value, sub }) {
 }
 
 function BarChart({ data }) {
-    const max = Math.max(...data.map((d) => d.count), 1);
+    const max = Math.max(...data.map((d) => parseInt(d.count)), 1);
     return (
         <div className="flex h-32 items-end gap-1">
             {data.map((d) => {
-                const height = Math.round((d.count / max) * 100);
+                const count = parseInt(d.count);
+                const height = Math.round((count / max) * 100);
                 const label = new Date(d.date + 'T00:00:00').toLocaleDateString(undefined, {
                     month: 'short',
                     day: 'numeric',
                 });
                 return (
-                    <div key={d.date} className="group relative flex flex-1 flex-col items-center">
+                    <div key={d.date} className="group relative flex-1 h-full flex flex-col justify-end">
                         <div
                             className="w-full rounded-t bg-indigo-400 transition-all"
                             style={{ height: `${height}%` }}
                         />
                         {/* tooltip on hover */}
                         <div className="pointer-events-none absolute bottom-full mb-1 hidden rounded bg-gray-800 px-2 py-1 text-xs text-white group-hover:block whitespace-nowrap">
-                            {label}: {d.count}
+                            {label}: {count}
                         </div>
                     </div>
                 );
