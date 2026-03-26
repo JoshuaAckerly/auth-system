@@ -3,6 +3,7 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
+import { getMainSiteUrl, getProjectUrl } from '../env';
 import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
@@ -30,6 +31,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Dashboard
                                 </NavLink>
+                                <a
+                                    href={getMainSiteUrl()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150 ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-none"
+                                >
+                                    GraveYardJokes
+                                </a>
+                                <a
+                                    href={getProjectUrl('studio')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150 ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-none"
+                                >
+                                    Studio
+                                </a>
                                 {usePage().props.auth.is_admin && (
                                     <>
                                         <NavLink
@@ -150,6 +167,22 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             Dashboard
                         </ResponsiveNavLink>
+                        <a
+                            href={getMainSiteUrl()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full border-l-4 border-transparent py-2 pe-4 ps-3 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-none"
+                        >
+                            GraveYardJokes
+                        </a>
+                        <a
+                            href={getProjectUrl('studio')}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full border-l-4 border-transparent py-2 pe-4 ps-3 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-none"
+                        >
+                            Studio
+                        </a>
                         {usePage().props.auth.is_admin && (
                             <>
                                 <ResponsiveNavLink
