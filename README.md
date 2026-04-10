@@ -1,33 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Auth System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> Centralized authentication and authorization service for the portfolio of web applications.
 
-## About Laravel
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?logo=laravel)](https://laravel.com)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Auth System is a shared authentication service that provides centralized user management, JWT-based authentication, and role-based access control for all applications in the portfolio.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Key Features**:
 
-## Learning Laravel
+- 🔐 **Centralized Authentication**: Single sign-on across all apps
+- 🎫 **JWT Tokens**: Secure bearer token authentication
+- 👥 **User Management**: Create, read, update user accounts
+- 🔑 **Role-Based Access**: User roles and permissions
+- 💬 **Messaging**: User notifications and messages
+- ⚡ **Fast & Secure**: Optimized for performance and security
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛠 Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Backend**: Laravel 12 with Sanctum
+- **Database**: MySQL 8.0+
+- **Authentication**: JWT via Laravel Sanctum
+- **Language**: PHP 8.2+
 
-## Laravel Sponsors
+## 🚀 Quick Start
+
+### Prerequisites
+
+- PHP 8.2 or higher
+- Composer
+- MySQL 8.0 or higher
+- Git
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/YOUR-USERNAME/auth-system.git
+cd auth-system
+
+# Install dependencies
+composer install
+
+# Environment setup
+cp .env.example .env
+php artisan key:generate
+
+# Database setup
+php artisan migrate
+
+# Start service
+php artisan serve
+```
+
+### Configuration
+
+Edit `.env`:
+
+```env
+APP_NAME=AuthSystem
+APP_URL=https://auth.example.com
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_DATABASE=auth_system
+DB_USERNAME=root
+DB_PASSWORD=password
+
+SANCTUM_STATEFUL_DOMAINS=app1.local,app2.local,app3.local
+```
+
+## 📡 API Endpoints
+
+### Authentication
+
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `POST /api/auth/refresh` - Refresh token
+
+### User Management
+
+- `GET /api/user` - Get current user
+- `PATCH /api/user` - Update user profile
+- `POST /api/user/password` - Change password
+
+### Messages
+
+- `GET /api/messages` - Get user messages
+- `PATCH /api/messages/{id}/read` - Mark message as read
+- `PATCH /api/messages/read-all` - Mark all as read
+
+## 🔗 Integration
+
+### From Another Project
+
+```bash
+# In your project's .env
+AUTH_SYSTEM_URL=https://auth.example.com
+```
+
+### Login
+
+```javascript
+const response = await fetch('https://auth.example.com/api/auth/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'user@example.com',
+    password: 'password'
+  })
+});
+
+const data = await response.json();
+localStorage.setItem('auth_token', data.token);
+```
+
+### Protected Requests
+
+```javascript
+const response = await fetch('https://auth.example.com/api/user', {
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+  }
+});
+```
+
+## 📚 Full Documentation
+
+See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
+
+## 🧪 Testing
+
+```bash
+# Run tests
+./vendor/bin/phpunit
+
+# With coverage
+./vendor/bin/phpunit --coverage-html coverage
+```
+
+## 🔐 Security
+
+- Passwords hashed with bcrypt
+- JWTs signed with app secret
+- CORS enabled for authorized domains
+- HTTPS required in production
+- Rate limiting on auth endpoints
+
+## 📝 License
+
+Licensed under the MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## 📞 Support
+
+For issues and questions, open an issue on GitHub.
 
 We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
