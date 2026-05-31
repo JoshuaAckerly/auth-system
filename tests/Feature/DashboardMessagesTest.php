@@ -40,9 +40,9 @@ class DashboardMessagesTest extends TestCase
 
         AdminMessage::create([
             'user_id' => null,
-            'title'   => 'Broadcast Alert',
-            'body'    => 'Everyone sees this',
-            'type'    => 'broadcast',
+            'title' => 'Broadcast Alert',
+            'body' => 'Everyone sees this',
+            'type' => 'broadcast',
         ]);
 
         $this->actingAs($userA)
@@ -62,13 +62,13 @@ class DashboardMessagesTest extends TestCase
     public function test_individual_message_only_appears_for_target_user(): void
     {
         $target = User::factory()->create();
-        $other  = User::factory()->create();
+        $other = User::factory()->create();
 
         AdminMessage::create([
             'user_id' => $target->id,
-            'title'   => 'Personal Message',
-            'body'    => 'Only for you',
-            'type'    => 'individual',
+            'title' => 'Personal Message',
+            'body' => 'Only for you',
+            'type' => 'individual',
         ]);
 
         $this->actingAs($target)
@@ -90,15 +90,15 @@ class DashboardMessagesTest extends TestCase
 
         AdminMessage::create([
             'user_id' => null,
-            'title'   => 'Broadcast 1',
-            'body'    => 'Test',
-            'type'    => 'broadcast',
+            'title' => 'Broadcast 1',
+            'body' => 'Test',
+            'type' => 'broadcast',
         ]);
         AdminMessage::create([
             'user_id' => null,
-            'title'   => 'Broadcast 2',
-            'body'    => 'Test',
-            'type'    => 'broadcast',
+            'title' => 'Broadcast 2',
+            'body' => 'Test',
+            'type' => 'broadcast',
         ]);
 
         $this->actingAs($user)
@@ -114,15 +114,15 @@ class DashboardMessagesTest extends TestCase
 
         $message = AdminMessage::create([
             'user_id' => null,
-            'title'   => 'Broadcast',
-            'body'    => 'Read this',
-            'type'    => 'broadcast',
+            'title' => 'Broadcast',
+            'body' => 'Read this',
+            'type' => 'broadcast',
         ]);
 
         AdminMessageRead::create([
             'admin_message_id' => $message->id,
-            'user_id'          => $user->id,
-            'read_at'          => now(),
+            'user_id' => $user->id,
+            'read_at' => now(),
         ]);
 
         $this->actingAs($user)
@@ -139,9 +139,9 @@ class DashboardMessagesTest extends TestCase
 
         AdminMessage::create([
             'user_id' => null,
-            'title'   => 'Unread',
-            'body'    => 'Not yet read',
-            'type'    => 'broadcast',
+            'title' => 'Unread',
+            'body' => 'Not yet read',
+            'type' => 'broadcast',
         ]);
 
         $this->actingAs($user)

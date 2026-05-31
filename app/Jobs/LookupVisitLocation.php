@@ -17,6 +17,7 @@ class LookupVisitLocation implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 2;
+
     public int $timeout = 15;
 
     public function __construct(private readonly int $visitId, private readonly string $ip) {}
@@ -29,7 +30,7 @@ class LookupVisitLocation implements ShouldQueue
             return;
         }
 
-        $cacheKey = 'ip_geo_' . md5($this->ip);
+        $cacheKey = 'ip_geo_'.md5($this->ip);
 
         $location = Cache::remember($cacheKey, now()->addHours(24), function () {
             try {
@@ -44,12 +45,13 @@ class LookupVisitLocation implements ShouldQueue
                 }
 
                 return [
-                    'city'    => $data['city'] ?? null,
-                    'region'  => $data['region'] ?? null,
+                    'city' => $data['city'] ?? null,
+                    'region' => $data['region'] ?? null,
                     'country' => $data['country'] ?? null,
                 ];
             } catch (\Exception $e) {
-                Log::warning('GeoIP lookup failed for ' . $this->ip . ': ' . $e->getMessage());
+                Log::warning('GeoIP lookup failed for '.$this->ip.': '.$e->getMessage());
+
                 return null;
             }
         });

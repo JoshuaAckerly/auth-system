@@ -28,7 +28,7 @@ class AdminMessage extends Model
     {
         return $query->where(function (Builder $q) use ($userId) {
             $q->where('type', 'broadcast')
-              ->orWhere('user_id', $userId);
+                ->orWhere('user_id', $userId);
         });
     }
 

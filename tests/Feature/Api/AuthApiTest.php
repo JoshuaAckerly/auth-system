@@ -60,7 +60,7 @@ class AuthApiTest extends TestCase
             'email' => $user->email,
             'password' => 'wrong-password',
         ])->assertStatus(429)
-          ->assertJsonStructure(['error', 'retry_after']);
+            ->assertJsonStructure(['error', 'retry_after']);
     }
 
     public function test_authenticated_user_info_can_be_retrieved_via_api_token(): void

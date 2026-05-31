@@ -10,6 +10,7 @@ class PurchaseController extends Controller
     public function list(Request $request)
     {
         $purchases = $request->user()->purchases ?? [];
+
         return response()->json($purchases);
     }
 

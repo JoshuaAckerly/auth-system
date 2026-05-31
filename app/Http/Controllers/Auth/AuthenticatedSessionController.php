@@ -22,6 +22,7 @@ class AuthenticatedSessionController extends Controller
         if ($returnUrl && filter_var($returnUrl, FILTER_VALIDATE_URL)) {
             $request->session()->put('return_url', $returnUrl);
         }
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),

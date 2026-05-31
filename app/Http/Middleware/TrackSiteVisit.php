@@ -25,12 +25,12 @@ class TrackSiteVisit
         if ($this->shouldTrack($request)) {
             $ip = $request->ip();
             $visit = SiteVisit::create([
-                'user_id'    => $request->user()?->id,
-                'host'       => $request->getHost(),
+                'user_id' => $request->user()?->id,
+                'host' => $request->getHost(),
                 'ip_address' => $ip,
                 'user_agent' => $request->userAgent(),
-                'path'       => '/' . ltrim($request->path(), '/'),
-                'referer'    => $request->headers->get('referer'),
+                'path' => '/'.ltrim($request->path(), '/'),
+                'referer' => $request->headers->get('referer'),
                 'created_at' => now(),
             ]);
 
@@ -46,7 +46,7 @@ class TrackSiteVisit
             return false;
         }
 
-        $path = '/' . ltrim($request->path(), '/');
+        $path = '/'.ltrim($request->path(), '/');
 
         foreach (self::SKIP_PREFIXES as $prefix) {
             if (str_starts_with($path, $prefix)) {

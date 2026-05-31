@@ -12,9 +12,10 @@ class PurchaseValidationTest extends TestCase
 
     private function authHeader(): array
     {
-        $user  = User::factory()->create();
+        $user = User::factory()->create();
         $token = $user->createToken('api-test')->plainTextToken;
-        return ['Authorization' => 'Bearer ' . $token];
+
+        return ['Authorization' => 'Bearer '.$token];
     }
 
     public function test_store_requires_item(): void
@@ -41,7 +42,7 @@ class PurchaseValidationTest extends TestCase
     {
         $this->withHeaders($this->authHeader())
             ->postJson('/api/purchases', [
-                'item'   => 'Poster',
+                'item' => 'Poster',
                 'amount' => 'not-a-number',
             ])
             ->assertUnprocessable()
@@ -52,7 +53,7 @@ class PurchaseValidationTest extends TestCase
     {
         $this->withHeaders($this->authHeader())
             ->postJson('/api/purchases', [
-                'item'   => str_repeat('a', 256),
+                'item' => str_repeat('a', 256),
                 'amount' => 9.99,
             ])
             ->assertUnprocessable()
@@ -63,7 +64,7 @@ class PurchaseValidationTest extends TestCase
     {
         $this->withHeaders($this->authHeader())
             ->postJson('/api/purchases', [
-                'item'   => 'Digital Download',
+                'item' => 'Digital Download',
                 'amount' => 4.99,
             ])
             ->assertCreated();

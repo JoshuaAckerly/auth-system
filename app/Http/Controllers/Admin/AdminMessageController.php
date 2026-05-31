@@ -22,6 +22,7 @@ class AdminMessageController extends Controller
             $message->read_count = $message->reads()->count();
             $message->recipient_count = $message->type === 'broadcast' ? $userCount : 1;
             $message->recipient_name = $message->user?->name;
+
             return $message;
         });
 

@@ -13,9 +13,9 @@ class RegistrationValidationTest extends TestCase
     public function test_registration_requires_name(): void
     {
         $this->post('/register', [
-            'name'                  => '',
-            'email'                 => 'new@example.com',
-            'password'              => 'password',
+            'name' => '',
+            'email' => 'new@example.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
         ])->assertSessionHasErrors(['name']);
     }
@@ -23,9 +23,9 @@ class RegistrationValidationTest extends TestCase
     public function test_registration_requires_email(): void
     {
         $this->post('/register', [
-            'name'                  => 'Test User',
-            'email'                 => '',
-            'password'              => 'password',
+            'name' => 'Test User',
+            'email' => '',
+            'password' => 'password',
             'password_confirmation' => 'password',
         ])->assertSessionHasErrors(['email']);
     }
@@ -35,9 +35,9 @@ class RegistrationValidationTest extends TestCase
         User::factory()->create(['email' => 'taken@example.com']);
 
         $this->post('/register', [
-            'name'                  => 'Another User',
-            'email'                 => 'taken@example.com',
-            'password'              => 'password',
+            'name' => 'Another User',
+            'email' => 'taken@example.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
         ])->assertSessionHasErrors(['email']);
     }
@@ -45,9 +45,9 @@ class RegistrationValidationTest extends TestCase
     public function test_registration_rejects_password_mismatch(): void
     {
         $this->post('/register', [
-            'name'                  => 'Test User',
-            'email'                 => 'new@example.com',
-            'password'              => 'password',
+            'name' => 'Test User',
+            'email' => 'new@example.com',
+            'password' => 'password',
             'password_confirmation' => 'different',
         ])->assertSessionHasErrors(['password']);
     }
@@ -55,7 +55,7 @@ class RegistrationValidationTest extends TestCase
     public function test_registration_requires_password(): void
     {
         $this->post('/register', [
-            'name'  => 'Test User',
+            'name' => 'Test User',
             'email' => 'new@example.com',
         ])->assertSessionHasErrors(['password']);
     }

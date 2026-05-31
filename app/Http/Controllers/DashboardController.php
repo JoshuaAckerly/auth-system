@@ -19,19 +19,19 @@ class DashboardController extends Controller
             ->take(5)
             ->get()
             ->map(fn ($msg) => [
-                'id'         => $msg->id,
-                'title'      => $msg->title,
-                'type'       => $msg->type,
+                'id' => $msg->id,
+                'title' => $msg->title,
+                'type' => $msg->type,
                 'created_at' => $msg->created_at,
-                'is_read'    => $msg->reads->isNotEmpty(),
+                'is_read' => $msg->reads->isNotEmpty(),
             ]);
 
         $unreadCount = AdminMessage::unreadFor($userId)->count();
 
         return Inertia::render('Dashboard', [
-            'purchases'       => $user->purchases->toArray(),
-            'recentMessages'  => $recentMessages,
-            'unreadCount'     => $unreadCount,
+            'purchases' => $user->purchases->toArray(),
+            'recentMessages' => $recentMessages,
+            'unreadCount' => $unreadCount,
         ]);
     }
 }

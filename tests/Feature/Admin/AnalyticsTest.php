@@ -17,6 +17,7 @@ class AnalyticsTest extends TestCase
     {
         $user = User::factory()->create(['email' => 'admin@example.com']);
         Config::set('app.admin_email', 'admin@example.com');
+
         return $user;
     }
 
@@ -86,13 +87,13 @@ class AnalyticsTest extends TestCase
     public function test_total_visits_reflects_database(): void
     {
         SiteVisit::create([
-            'host'       => 'graveyardjokes.local',
-            'path'       => '/test',
+            'host' => 'graveyardjokes.local',
+            'path' => '/test',
             'created_at' => now(),
         ]);
         SiteVisit::create([
-            'host'       => 'graveyardjokes.local',
-            'path'       => '/about',
+            'host' => 'graveyardjokes.local',
+            'path' => '/about',
             'created_at' => now(),
         ]);
 

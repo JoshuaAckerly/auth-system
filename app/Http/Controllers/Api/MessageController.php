@@ -27,6 +27,7 @@ class MessageController extends Controller
 
         $messages->getCollection()->transform(function ($message) use ($readMessageIds) {
             $message->is_read = in_array($message->id, $readMessageIds);
+
             return $message;
         });
 

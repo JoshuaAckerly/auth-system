@@ -3,7 +3,6 @@
 namespace Tests\Feature\Api;
 
 use App\Jobs\LookupVisitLocation;
-use App\Models\SiteVisit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Queue;
@@ -24,11 +23,11 @@ class SiteVisitApiTest extends TestCase
     private function validPayload(array $overrides = []): array
     {
         return array_merge([
-            'host'       => 'graveyardjokes.local',
-            'path'       => '/about',
+            'host' => 'graveyardjokes.local',
+            'path' => '/about',
             'ip_address' => '192.168.1.1',
             'user_agent' => 'Mozilla/5.0',
-            'referer'    => 'https://google.com',
+            'referer' => 'https://google.com',
         ], $overrides);
     }
 

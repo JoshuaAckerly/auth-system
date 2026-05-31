@@ -19,19 +19,19 @@ class SiteVisitController extends Controller
         }
 
         $data = $request->validate([
-            'host'       => ['required', 'string', 'max:255'],
-            'path'       => ['required', 'string', 'max:1000'],
+            'host' => ['required', 'string', 'max:255'],
+            'path' => ['required', 'string', 'max:1000'],
             'ip_address' => ['nullable', 'string', 'max:45'],
             'user_agent' => ['nullable', 'string'],
-            'referer'    => ['nullable', 'string', 'max:1000'],
+            'referer' => ['nullable', 'string', 'max:1000'],
         ]);
 
         $visit = SiteVisit::create([
-            'host'       => $data['host'],
-            'path'       => $data['path'],
+            'host' => $data['host'],
+            'path' => $data['path'],
             'ip_address' => $data['ip_address'] ?? null,
             'user_agent' => $data['user_agent'] ?? null,
-            'referer'    => $data['referer'] ?? null,
+            'referer' => $data['referer'] ?? null,
             'created_at' => now(),
         ]);
 
