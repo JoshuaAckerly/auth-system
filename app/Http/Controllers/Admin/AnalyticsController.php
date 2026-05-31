@@ -112,14 +112,14 @@ class AnalyticsController extends Controller
             ->limit(100)
             ->get()
             ->map(fn ($row) => [
-            'ip_address' => $row->ip_address,
-            'count' => (int) $row->count,
-            'last_seen' => $row->last_seen,
-            'first_seen' => $row->first_seen,
-            'city' => $row->city,
-            'region' => $row->region,
-            'country' => $row->country,
-        ]);
+                'ip_address' => $row->ip_address,
+                'count' => (int) $row->count,
+                'last_seen' => $row->last_seen,
+                'first_seen' => $row->first_seen,
+                'city' => $row->city,
+                'region' => $row->region,
+                'country' => $row->country,
+            ]);
 
         return Inertia::render('Admin/Analytics/Index', [
             'stats' => [
