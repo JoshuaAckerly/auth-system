@@ -53,6 +53,7 @@ export default defineConfig(({ mode }) => {
             alias: {
                 'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
             },
+            dedupe: ['react', 'react-dom'],
         },
         ssr: {
             noExternal: ['react', 'react-dom', '@inertiajs/react', '@inertiajs/core'],

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PurchaseSeeder::class,
+            PageSeoSeeder::class,
         ]);
     }
 }

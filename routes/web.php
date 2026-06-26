@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
 use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\SeoController;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
@@ -36,6 +37,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
+
+    Route::get('/seo', [SeoController::class, 'index'])->name('seo.index');
+    Route::get('/seo/{pageKey}/edit', [SeoController::class, 'edit'])->name('seo.edit');
+    Route::put('/seo/{pageKey}', [SeoController::class, 'update'])->name('seo.update');
+    Route::get('/seo/{pageKey}/gsc', [SeoController::class, 'gscData'])->name('seo.gsc');
 });
 
 require __DIR__.'/auth.php';

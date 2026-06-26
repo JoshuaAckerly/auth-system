@@ -61,6 +61,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                         >
                                             Analytics
                                         </NavLink>
+                                        <NavLink
+                                            href={route('admin.seo.index')}
+                                            active={route().current('admin.seo.*')}
+                                        >
+                                            SEO
+                                        </NavLink>
                                     </>
                                 )}
                             </div>
@@ -196,6 +202,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     active={route().current('admin.analytics')}
                                 >
                                     Analytics
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.seo.index')}
+                                    active={route().current('admin.seo.*')}
+                                >
+                                    SEO
                                 </ResponsiveNavLink>
                             </>
                         )}
