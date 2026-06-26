@@ -13,11 +13,11 @@ class PageSeoTest extends TestCase
     private function make(array $attrs = []): PageSeo
     {
         return PageSeo::create(array_merge([
-            'page_key'            => 'test.page',
-            'page_label'          => 'Test Page',
-            'page_url'            => '/test',
-            'robots'              => 'index,follow',
-            'sitemap_priority'    => 0.50,
+            'page_key' => 'test.page',
+            'page_label' => 'Test Page',
+            'page_url' => '/test',
+            'robots' => 'index,follow',
+            'sitemap_priority' => 0.50,
             'sitemap_change_freq' => 'monthly',
         ], $attrs));
     }

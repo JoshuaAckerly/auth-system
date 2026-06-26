@@ -43,20 +43,20 @@ class SeoController extends Controller
         $page = PageSeo::where('page_key', $pageKey)->firstOrFail();
 
         $validated = $request->validate([
-            'title'               => ['nullable', 'string', 'max:255'],
-            'meta_description'    => ['nullable', 'string', 'max:500'],
-            'canonical_url'       => ['nullable', 'url', 'max:500'],
-            'robots'              => ['required', 'string', Rule::in(['index,follow', 'index,nofollow', 'noindex,follow', 'noindex,nofollow'])],
-            'og_title'            => ['nullable', 'string', 'max:255'],
-            'og_description'      => ['nullable', 'string', 'max:500'],
-            'og_image'            => ['nullable', 'url', 'max:500'],
-            'og_type'             => ['nullable', 'string', 'max:50'],
-            'twitter_card'        => ['nullable', 'string', 'in:summary,summary_large_image'],
-            'twitter_title'       => ['nullable', 'string', 'max:255'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string', 'max:500'],
+            'canonical_url' => ['nullable', 'url', 'max:500'],
+            'robots' => ['required', 'string', Rule::in(['index,follow', 'index,nofollow', 'noindex,follow', 'noindex,nofollow'])],
+            'og_title' => ['nullable', 'string', 'max:255'],
+            'og_description' => ['nullable', 'string', 'max:500'],
+            'og_image' => ['nullable', 'url', 'max:500'],
+            'og_type' => ['nullable', 'string', 'max:50'],
+            'twitter_card' => ['nullable', 'string', 'in:summary,summary_large_image'],
+            'twitter_title' => ['nullable', 'string', 'max:255'],
             'twitter_description' => ['nullable', 'string', 'max:500'],
-            'twitter_image'       => ['nullable', 'url', 'max:500'],
-            'schema_json'         => ['nullable', 'string'],
-            'sitemap_priority'    => ['required', 'numeric', 'min:0', 'max:1'],
+            'twitter_image' => ['nullable', 'url', 'max:500'],
+            'schema_json' => ['nullable', 'string'],
+            'sitemap_priority' => ['required', 'numeric', 'min:0', 'max:1'],
             'sitemap_change_freq' => ['required', 'string', 'in:always,hourly,daily,weekly,monthly,yearly,never'],
         ]);
 

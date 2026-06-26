@@ -29,13 +29,13 @@ class SeoControllerTest extends TestCase
     private function makePage(array $attrs = []): PageSeo
     {
         return PageSeo::create(array_merge([
-            'page_key'            => 'login',
-            'page_label'          => 'Login',
-            'page_url'            => '/login',
-            'title'               => 'Login Title',
-            'meta_description'    => 'Login description',
-            'robots'              => 'noindex,nofollow',
-            'sitemap_priority'    => 0.30,
+            'page_key' => 'login',
+            'page_label' => 'Login',
+            'page_url' => '/login',
+            'title' => 'Login Title',
+            'meta_description' => 'Login description',
+            'robots' => 'noindex,nofollow',
+            'sitemap_priority' => 0.30,
             'sitemap_change_freq' => 'monthly',
         ], $attrs));
     }
@@ -138,20 +138,20 @@ class SeoControllerTest extends TestCase
 
         $this->actingAs($this->adminUser())
             ->put('/admin/seo/login', [
-                'title'               => 'New Login Title',
-                'meta_description'    => 'New description',
-                'canonical_url'       => null,
-                'robots'              => 'noindex,nofollow',
-                'og_title'            => null,
-                'og_description'      => null,
-                'og_image'            => null,
-                'og_type'             => 'website',
-                'twitter_card'        => 'summary_large_image',
-                'twitter_title'       => null,
+                'title' => 'New Login Title',
+                'meta_description' => 'New description',
+                'canonical_url' => null,
+                'robots' => 'noindex,nofollow',
+                'og_title' => null,
+                'og_description' => null,
+                'og_image' => null,
+                'og_type' => 'website',
+                'twitter_card' => 'summary_large_image',
+                'twitter_title' => null,
                 'twitter_description' => null,
-                'twitter_image'       => null,
-                'schema_json'         => null,
-                'sitemap_priority'    => 0.3,
+                'twitter_image' => null,
+                'schema_json' => null,
+                'sitemap_priority' => 0.3,
                 'sitemap_change_freq' => 'monthly',
             ])
             ->assertRedirect('/admin/seo/login/edit')
@@ -159,7 +159,7 @@ class SeoControllerTest extends TestCase
 
         $this->assertDatabaseHas('page_seos', [
             'page_key' => 'login',
-            'title'    => 'New Login Title',
+            'title' => 'New Login Title',
         ]);
     }
 
@@ -169,8 +169,8 @@ class SeoControllerTest extends TestCase
 
         $this->actingAs($this->adminUser())
             ->put('/admin/seo/login', [
-                'robots'              => 'all',
-                'sitemap_priority'    => 0.5,
+                'robots' => 'all',
+                'sitemap_priority' => 0.5,
                 'sitemap_change_freq' => 'monthly',
             ])
             ->assertSessionHasErrors('robots');
@@ -184,10 +184,10 @@ class SeoControllerTest extends TestCase
 
         $this->actingAs($this->adminUser())
             ->put('/admin/seo/login', [
-                'title'               => 'Title',
-                'robots'              => 'noindex,nofollow',
-                'schema_json'         => $schema,
-                'sitemap_priority'    => 0.3,
+                'title' => 'Title',
+                'robots' => 'noindex,nofollow',
+                'schema_json' => $schema,
+                'sitemap_priority' => 0.3,
                 'sitemap_change_freq' => 'monthly',
             ]);
 
