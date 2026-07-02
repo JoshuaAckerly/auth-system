@@ -95,7 +95,7 @@ class SeoControllerTest extends TestCase
 
         $response->assertInertia(fn (Assert $page) => $page
             ->component('Admin/Seo/Index')
-            ->has('pages', 2)
+            ->has('grouped')
         );
     }
 
