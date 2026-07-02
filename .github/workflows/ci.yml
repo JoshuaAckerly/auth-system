@@ -39,6 +39,7 @@ jobs:
         with:
           php-version: '8.3'
           extensions: mbstring, xml, curl, zip, bcmath, pdo_mysql, pdo_sqlite
+          coverage: xdebug
           tools: composer:v2
 
       - name: Cache Composer dependencies
@@ -77,6 +78,9 @@ jobs:
           find . -name '*.php' -not -path './vendor/*' -print0 | \
           xargs -0 -n1 php -l
 
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G --error-format=github
+
       - name: Copy CI environment file
         run: cp .env.ci .env
 
@@ -84,7 +88,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Run PHPUnit tests
-        run: vendor/bin/phpunit --colors=always
+        run: vendor/bin/phpunit --colors=always --coverage-text
 
       - name: Security audit
         run: composer audit
