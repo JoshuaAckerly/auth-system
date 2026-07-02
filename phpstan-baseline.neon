@@ -1,2 +1,865 @@
 parameters:
 	ignoreErrors:
+		-
+			rawMessage: 'Call to function is_string() with string will always evaluate to true.'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Console/Commands/GoogleSearchConsoleAuthorize.php
+
+		-
+			rawMessage: Cannot cast mixed to string.
+			identifier: cast.string
+			count: 3
+			path: app/Console/Commands/GoogleSearchConsoleAuthorize.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$read_count.
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$reads.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$recipient_count.
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$recipient_name.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$user.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Cannot access offset 'body' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Cannot access offset 'title' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Cannot access offset 'type' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Cannot access offset 'user_id' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Cannot access property $name on mixed.
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: 'Cannot call method count() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Admin\AdminMessageController::create() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Admin\AdminMessageController::index() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Admin\AdminMessageController::show() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Admin\AdminMessageController::store() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Admin/AdminMessageController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\SiteVisit::$count.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\SiteVisit::$first_seen.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\SiteVisit::$last_seen.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Access to an undefined property Illuminate\Database\Eloquent\Model::$email.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Access to an undefined property Illuminate\Database\Eloquent\Model::$name.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Cannot access property $count on App\Models\SiteVisit|null.
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Cannot cast mixed to int.
+			identifier: cast.int
+			count: 2
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: 'Parameter #1 $callback of method Illuminate\Database\Eloquent\Collection<int,App\Models\SiteVisit>::map() contains unresolvable type.'
+			identifier: argument.unresolvableType
+			count: 2
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: 'Return type of call to method Illuminate\Database\Eloquent\Collection<int,App\Models\SiteVisit>::map() contains unresolvable type.'
+			identifier: method.unresolvableReturnType
+			count: 2
+			path: app/Http/Controllers/Admin/AnalyticsController.php
+
+		-
+			rawMessage: Cannot access offset 'schema_json' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Admin/SeoController.php
+
+		-
+			rawMessage: 'Parameter #1 $attributes of method Illuminate\Database\Eloquent\Model::update() expects array<string, mixed>, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Admin/SeoController.php
+
+		-
+			rawMessage: Cannot access offset 'device_name' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			rawMessage: Cannot access offset 'email' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			rawMessage: Cannot access offset 'password' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			rawMessage: 'Parameter #1 $name of method App\Models\User::createToken() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			rawMessage: 'Parameter #1 $value of static method Illuminate\Support\Facades\Hash::check() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			rawMessage: 'Parameter #1 $value of static method Illuminate\Support\Str::lower() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Api/AuthController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$is_read.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/MessageController.php
+
+		-
+			rawMessage: Cannot access property $id on App\Models\User|null.
+			identifier: property.nonObject
+			count: 7
+			path: app/Http/Controllers/Api/MessageController.php
+
+		-
+			rawMessage: Cannot access offset 'amount' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: Cannot access offset 'item' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: Cannot access offset 'paypal_transaction_id' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: 'Cannot call method create() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: 'Cannot call method purchases() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Api\PurchaseController::list() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Api\PurchaseController::store() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/PurchaseController.php
+
+		-
+			rawMessage: Cannot access offset 'host' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/SiteVisitController.php
+
+		-
+			rawMessage: Cannot access offset 'ip_address' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: app/Http/Controllers/Api/SiteVisitController.php
+
+		-
+			rawMessage: Cannot access offset 'path' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/SiteVisitController.php
+
+		-
+			rawMessage: Cannot access offset 'referer' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/SiteVisitController.php
+
+		-
+			rawMessage: Cannot access offset 'user_agent' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Api/SiteVisitController.php
+
+		-
+			rawMessage: 'Parameter #2 $ip of job class App\Jobs\LookupVisitLocation constructor expects string in App\Jobs\LookupVisitLocation::dispatch(), mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Api/SiteVisitController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\Api\UserController::info() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Api/UserController.php
+
+		-
+			rawMessage: Cannot access property $email on App\Models\User|null.
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/ConfirmablePasswordController.php
+
+		-
+			rawMessage: 'Cannot call method hasVerifiedEmail() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/EmailVerificationNotificationController.php
+
+		-
+			rawMessage: 'Cannot call method sendEmailVerificationNotification() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/EmailVerificationNotificationController.php
+
+		-
+			rawMessage: 'Cannot call method hasVerifiedEmail() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/EmailVerificationPromptController.php
+
+		-
+			rawMessage: 'Cannot call method forceFill() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			rawMessage: 'Cannot call method save() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			rawMessage: 'Parameter #1 $key of function __ expects string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			rawMessage: 'Parameter #1 $key of function trans expects string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			rawMessage: 'Parameter #1 $user of class Illuminate\Auth\Events\PasswordReset constructor expects Illuminate\Contracts\Auth\Authenticatable, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			rawMessage: 'Parameter #1 $value of static method Illuminate\Support\Facades\Hash::make() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/NewPasswordController.php
+
+		-
+			rawMessage: Cannot access offset 'password' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Http/Controllers/Auth/PasswordController.php
+
+		-
+			rawMessage: 'Cannot call method update() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/PasswordController.php
+
+		-
+			rawMessage: 'Parameter #1 $value of static method Illuminate\Support\Facades\Hash::make() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/PasswordController.php
+
+		-
+			rawMessage: 'Parameter #1 $value of static method Illuminate\Support\Facades\Hash::make() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/RegisteredUserController.php
+
+		-
+			rawMessage: 'Cannot call method hasVerifiedEmail() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			rawMessage: 'Cannot call method markEmailAsVerified() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			rawMessage: 'Parameter #1 $user of class Illuminate\Auth\Events\Verified constructor expects Illuminate\Contracts\Auth\MustVerifyEmail, App\Models\User|null given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\AdminMessage::$reads.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\User::$purchases.
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: 'Cannot call method isNotEmpty() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: 'Cannot call method load() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: 'Cannot call method toArray() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: 'Cannot call method where() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: 'Method App\Http\Controllers\DashboardController::__invoke() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: Relation 'reads' is not found in App\Models\AdminMessage model.
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/DashboardController.php
+
+		-
+			rawMessage: Cannot access property $email_verified_at on App\Models\User|null.
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			rawMessage: 'Cannot call method delete() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			rawMessage: 'Cannot call method fill() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			rawMessage: 'Cannot call method isDirty() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			rawMessage: 'Cannot call method save() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/ProfileController.php
+
+		-
+			rawMessage: 'Method App\Http\Middleware\EnsureUserIsAdmin::handle() should return Symfony\Component\HttpFoundation\Response but returns mixed.'
+			identifier: return.type
+			count: 1
+			path: app/Http/Middleware/EnsureUserIsAdmin.php
+
+		-
+			rawMessage: 'Method App\Http\Middleware\TrackSiteVisit::handle() should return Symfony\Component\HttpFoundation\Response but returns mixed.'
+			identifier: return.type
+			count: 1
+			path: app/Http/Middleware/TrackSiteVisit.php
+
+		-
+			rawMessage: 'Parameter #2 $ip of job class App\Jobs\LookupVisitLocation constructor expects string in App\Jobs\LookupVisitLocation::dispatch(), string|null given.'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Middleware/TrackSiteVisit.php
+
+		-
+			rawMessage: Cannot access property $id on App\Models\User|null.
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Requests/ProfileUpdateRequest.php
+
+		-
+			rawMessage: 'Call to an undefined method Illuminate\Database\Eloquent\Builder::forUser().'
+			identifier: method.notFound
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Cannot call method whereDoesntHave() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::reads() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::scopeForUser() has parameter $query with generic class Illuminate\Database\Eloquent\Builder but does not specify its types: TModel'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::scopeForUser() return type with generic class Illuminate\Database\Eloquent\Builder does not specify its types: TModel'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::scopeUnreadFor() has parameter $query with generic class Illuminate\Database\Eloquent\Builder but does not specify its types: TModel'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::scopeUnreadFor() return type with generic class Illuminate\Database\Eloquent\Builder does not specify its types: TModel'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::scopeUnreadFor() should return Illuminate\Database\Eloquent\Builder but returns mixed.'
+			identifier: return.type
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessage::user() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/AdminMessage.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessageRead::message() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/AdminMessageRead.php
+
+		-
+			rawMessage: 'Method App\Models\AdminMessageRead::user() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/AdminMessageRead.php
+
+		-
+			rawMessage: 'Class App\Models\Purchase uses generic trait Illuminate\Database\Eloquent\Factories\HasFactory but does not specify its types: TFactory'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Purchase.php
+
+		-
+			rawMessage: 'Method App\Models\Purchase::user() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/Purchase.php
+
+		-
+			rawMessage: 'Method App\Models\SiteVisit::user() return type with generic class Illuminate\Database\Eloquent\Relations\BelongsTo does not specify its types: TRelatedModel, TDeclaringModel'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/SiteVisit.php
+
+		-
+			rawMessage: 'Method App\Models\User::adminMessages() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			rawMessage: 'Method App\Models\User::purchases() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			rawMessage: 'Method App\Models\User::unreadAdminMessages() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/User.php
+
+		-
+			rawMessage: Binary operation "." between 'This link will…' and mixed results in an error.
+			identifier: binaryOp.invalid
+			count: 1
+			path: app/Notifications/ResetPasswordNotification.php
+
+		-
+			rawMessage: Binary operation "." between 'auth.passwords.' and mixed results in an error.
+			identifier: binaryOp.invalid
+			count: 1
+			path: app/Notifications/ResetPasswordNotification.php
+
+		-
+			rawMessage: Cannot cast mixed to int.
+			identifier: cast.int
+			count: 1
+			path: app/Services/GoogleSearchConsoleService.php
+
+		-
+			rawMessage: Cannot cast mixed to string.
+			identifier: cast.string
+			count: 4
+			path: app/Services/GoogleSearchConsoleService.php
+
+		-
+			rawMessage: 'Offset ''clicks'' on array{keys: array<string>, clicks: int, impressions: int, ctr: float, position: float} on left side of ?? always exists and is not nullable.'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/GoogleSearchConsoleService.php
+
+		-
+			rawMessage: 'Offset ''ctr'' on array{keys: array<string>, clicks: int, impressions: int, ctr: float, position: float} on left side of ?? always exists and is not nullable.'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/GoogleSearchConsoleService.php
+
+		-
+			rawMessage: 'Offset ''impressions'' on array{keys: array<string>, clicks: int, impressions: int, ctr: float, position: float} on left side of ?? always exists and is not nullable.'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/GoogleSearchConsoleService.php
+
+		-
+			rawMessage: 'Offset ''position'' on array{keys: array<string>, clicks: int, impressions: int, ctr: float, position: float} on left side of ?? always exists and is not nullable.'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Services/GoogleSearchConsoleService.php
+
+		-
+			rawMessage: Cannot access offset 'page_key' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 9
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::authSystemPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::graveyardJokesPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::hollowPressPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::lunarBloodPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::noteleksPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::studioPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::synthVeilPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::theVelvetPulsePages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Method Database\Seeders\PageSeoSeeder::velvetRadioPages() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Parameter #1 $string of function rtrim expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: 'Parameter #2 $values of static method Illuminate\Database\Eloquent\Builder<App\Models\PageSeo>::updateOrCreate() expects array<string, mixed>, mixed given.'
+			identifier: argument.type
+			count: 9
+			path: database/seeders/PageSeoSeeder.php
+
+		-
+			rawMessage: Cannot access property $schema_json on App\Models\PageSeo|null.
+			identifier: property.nonObject
+			count: 2
+			path: tests/Feature/Admin/SeoControllerTest.php
+
+		-
+			rawMessage: 'Method Tests\Feature\Admin\SeoControllerTest::makePage() has parameter $attrs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Feature/Admin/SeoControllerTest.php
+
+		-
+			rawMessage: Binary operation "." between 'Bearer ' and mixed results in an error.
+			identifier: binaryOp.invalid
+			count: 1
+			path: tests/Feature/Api/AuthApiTest.php
+
+		-
+			rawMessage: Cannot access offset 'data' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: Cannot access offset 'is_read' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: Cannot access offset 'messages' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: Cannot access offset 'unread_count' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: 'Parameter #1 $value of function collect expects Illuminate\Contracts\Support\Arrayable<(int|string), mixed>|iterable<(int|string), mixed>|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: 'Parameter #2 $haystack of method PHPUnit\Framework\Assert::assertCount() expects Countable|iterable, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: Unable to resolve the template type TKey in call to function collect
+			identifier: argument.templateType
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: Unable to resolve the template type TValue in call to function collect
+			identifier: argument.templateType
+			count: 1
+			path: tests/Feature/Api/MessageApiTest.php
+
+		-
+			rawMessage: 'Method Tests\Feature\Api\PurchaseValidationTest::authHeader() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Feature/Api/PurchaseValidationTest.php
+
+		-
+			rawMessage: 'Method Tests\Feature\Api\SiteVisitApiTest::validPayload() has parameter $overrides with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Feature/Api/SiteVisitApiTest.php
+
+		-
+			rawMessage: 'Method Tests\Feature\Api\SiteVisitApiTest::validPayload() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Feature/Api/SiteVisitApiTest.php
+
+		-
+			rawMessage: 'Cannot call method hasVerifiedEmail() on App\Models\User|null.'
+			identifier: method.nonObject
+			count: 2
+			path: tests/Feature/Auth/EmailVerificationTest.php
+
+		-
+			rawMessage: Binary operation "." between '/reset-password/' and mixed results in an error.
+			identifier: binaryOp.invalid
+			count: 1
+			path: tests/Feature/Auth/PasswordResetTest.php
+
+		-
+			rawMessage: Cannot access property $token on mixed.
+			identifier: property.nonObject
+			count: 2
+			path: tests/Feature/Auth/PasswordResetTest.php
+
+		-
+			rawMessage: Cannot access property $item on App\Models\Purchase|null.
+			identifier: property.nonObject
+			count: 2
+			path: tests/Feature/DashboardPurchasesTest.php
+
+		-
+			rawMessage: 'Method Tests\Feature\DashboardPurchasesTest::test_dashboard_returns_purchases_for_authenticated_user() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/Feature/DashboardPurchasesTest.php
+
+		-
+			rawMessage: 'Call to method PHPUnit\Framework\Assert::assertTrue() with true will always evaluate to true.'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Unit/ExampleTest.php
+
+		-
+			rawMessage: 'Call to method PHPUnit\Framework\Assert::assertIsFloat() with float will always evaluate to true.'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Unit/PageSeoTest.php
+
+		-
+			rawMessage: 'Method Tests\Unit\PageSeoTest::make() has parameter $attrs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/Unit/PageSeoTest.php
+
+		-
+			rawMessage: Access to an undefined property App\Models\Purchase::$user.
+			identifier: property.notFound
+			count: 1
+			path: tests/Unit/PurchaseTest.php
