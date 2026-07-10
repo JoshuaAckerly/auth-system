@@ -19,6 +19,7 @@ This app exposes a JSON API. There are no Inertia page routes.
 - `Api/PurchaseController` — `GET /api/purchases`, `POST /api/purchases`
 - `Api/MessageController` — `GET /api/messages`, `PATCH /api/messages/read-all`, `PATCH /api/messages/{id}/read`
 - `Api/SiteVisitController` — `POST /api/site-visits` (public, records cross-app visit)
+- `Admin/SeoController` — `GET /admin/seo`, `GET|PUT /admin/seo/{pageKey}`, `GET /admin/seo/{pageKey}/gsc` — admin SEO management
 - `Admin/` — admin panel controllers
 - `Auth/` — password/email Breeze-style auth controllers
 - `DashboardController`, `ProfileController` — internal admin dashboard
@@ -28,6 +29,7 @@ This app exposes a JSON API. There are no Inertia page routes.
 - `AdminMessage`, `AdminMessageRead` — admin messaging system
 - `Purchase` — purchase records
 - `SiteVisit` — cross-app visitor analytics
+- `PageSeo` — per-page SEO metadata (title, description, OG) managed via admin panel
 
 ### Routes (`routes/api.php`)
 ```
