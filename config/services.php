@@ -39,4 +39,9 @@ return [
         'tracking_id' => env('GOOGLE_ANALYTICS_TRACKING_ID'),
     ],
 
+    'graveyardjokes' => [
+        'base_url' => env('GRAVEYARDJOKES_BASE_URL', 'https://graveyardjokes.com'),
+        'social_schedule_secret' => env('SOCIAL_SCHEDULE_SECRET'),
+    ],
+
 ];

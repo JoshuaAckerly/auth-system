@@ -62,6 +62,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                             Analytics
                                         </NavLink>
                                         <NavLink
+                                            href={route('admin.social-schedule.index')}
+                                            active={route().current('admin.social-schedule.*')}
+                                        >
+                                            Social
+                                        </NavLink>
+                                        <NavLink
                                             href={route('admin.seo.index')}
                                             active={route().current('admin.seo.*')}
                                         >
@@ -202,6 +208,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     active={route().current('admin.analytics')}
                                 >
                                     Analytics
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.social-schedule.index')}
+                                    active={route().current('admin.social-schedule.*')}
+                                >
+                                    Social
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route('admin.seo.index')}

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 
 function getInitials(name) {
     if (!name) return '?';
@@ -14,6 +14,30 @@ function getInitials(name) {
 export default function Dashboard({ purchases = [], recentMessages = [], unreadCount = 0 }) {
     const { auth } = usePage().props;
     const user = auth.user;
+    const adminTools = auth.is_admin
+        ? [
+              {
+                  title: 'Social Schedule',
+                  description: 'Review scheduled social posts and posting status.',
+                  href: route('admin.social-schedule.index'),
+              },
+              {
+                  title: 'Messages',
+                  description: 'Send announcements and manage user messages.',
+                  href: route('admin.messages.index'),
+              },
+              {
+                  title: 'Analytics',
+                  description: 'View site traffic and visit reporting.',
+                  href: route('admin.analytics'),
+              },
+              {
+                  title: 'SEO',
+                  description: 'Edit page metadata and search settings.',
+                  href: route('admin.seo.index'),
+              },
+          ]
+        : [];
 
     const totalSpent = purchases.reduce((sum, p) => sum + parseFloat(p.amount || 0), 0);
     const lastPurchase =
@@ -85,6 +109,35 @@ export default function Dashboard({ purchases = [], recentMessages = [], unreadC
                             </div>
                         </div>
                     </div>
+
+                    {adminTools.length > 0 && (
+                        <div className="overflow-hidden bg-white p-6 shadow-sm sm:rounded-lg">
+                            <div className="mb-5 flex items-center justify-between gap-4">
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                        Admin Tools
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                        Quick links for managing Graveyard Jokes Studios.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                                {adminTools.map((tool) => (
+                                    <Link
+                                        key={tool.title}
+                                        href={tool.href}
+                                        className="block rounded-md border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50"
+                                    >
+                                        <p className="font-semibold text-gray-900">{tool.title}</p>
+                                        <p className="mt-2 text-sm leading-5 text-gray-500">
+                                            {tool.description}
+                                        </p>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Row 2: Messages Inbox */}
                     {recentMessages.length > 0 && (

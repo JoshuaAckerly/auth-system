@@ -28,7 +28,11 @@ export default defineConfig(({ mode }) => {
             host: '0.0.0.0',
             origin: 'http://auth-system.graveyardjokes.local:8088',
             cors: {
-                origin: 'http://auth-system.graveyardjokes.local',
+                origin: [
+                    'http://auth-system.graveyardjokes.local',
+                    'http://auth-system.graveyardjokes.local:8007',
+                    'http://localhost:8007',
+                ],
                 credentials: true
             },
             allowedHosts: ['auth-system.graveyardjokes.local'],
