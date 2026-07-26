@@ -39,6 +39,13 @@ return [
         'tracking_id' => env('GOOGLE_ANALYTICS_TRACKING_ID'),
     ],
 
+    'google_search_console' => [
+        'client_id' => env('GOOGLE_SEARCH_CONSOLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_SEARCH_CONSOLE_CLIENT_SECRET'),
+        'refresh_token' => env('GOOGLE_SEARCH_CONSOLE_REFRESH_TOKEN'),
+        'site_url' => env('GOOGLE_SEARCH_CONSOLE_SITE_URL', 'sc-domain:graveyardjokes.com'),
+    ],
+
     'graveyardjokes' => [
         'base_url' => env('GRAVEYARDJOKES_BASE_URL', 'https://graveyardjokes.com'),
         'social_schedule_secret' => env('SOCIAL_SCHEDULE_SECRET'),

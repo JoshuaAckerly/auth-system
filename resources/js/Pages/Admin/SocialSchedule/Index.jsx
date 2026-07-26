@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
 
 const statusOptions = ['all', 'pending', 'processing', 'posted', 'failed', 'cancelled'];
-const platformOptions = ['all', 'discord', 'facebook', 'instagram', 'twitter'];
+const platformOptions = ['all', 'discord', 'facebook', 'google_business', 'instagram', 'twitter'];
 
 function StatCard({ label, value }) {
     return (
@@ -147,7 +147,7 @@ export default function Index({ posts, stats, apiError, sourceUrl }) {
                                                 </td>
                                                 <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                     {formatDate(post.scheduled_at)}
-                                                    {post.posted_at && <p className="mt-1 text-xs text-green-600">Posted {formatDate(post.posted_at)}</p>}
+                                                    {post.status === 'posted' && post.posted_at && <p className="mt-1 text-xs text-green-600">Posted {formatDate(post.posted_at)}</p>}
                                                 </td>
                                                 <td className="max-w-xl px-4 py-4 text-sm text-gray-700">
                                                     <p className="whitespace-pre-wrap leading-6">{post.content}</p>
