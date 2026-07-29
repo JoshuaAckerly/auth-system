@@ -16,18 +16,18 @@ class AnalyticsController extends Controller
         $thirtyDaysAgo = $now->copy()->subDays(30);
         $sevenDaysAgo = $now->copy()->subDays(7);
 
-        $totalVisits = SiteVisit::count();
-        $visitsLast30Days = SiteVisit::where('created_at', '>=', $thirtyDaysAgo)->count();
-        $visitsLast7Days = SiteVisit::where('created_at', '>=', $sevenDaysAgo)->count();
-        $uniqueIpsLast30 = SiteVisit::where('created_at', '>=', $thirtyDaysAgo)
+        $totalVisits = SiteVisit::human()->count();
+        $visitsLast30Days = SiteVisit::human()->where('created_at', '>=', $thirtyDaysAgo)->count();
+        $visitsLast7Days = SiteVisit::human()->where('created_at', '>=', $sevenDaysAgo)->count();
+        $uniqueIpsLast30 = SiteVisit::human()->where('created_at', '>=', $thirtyDaysAgo)
             ->distinct('ip_address')
             ->count('ip_address');
-        $loggedInLast30 = SiteVisit::where('created_at', '>=', $thirtyDaysAgo)
+        $loggedInLast30 = SiteVisit::human()->where('created_at', '>=', $thirtyDaysAgo)
             ->whereNotNull('user_id')
             ->count();
 
         // Daily visits for the last 14 days
-        $dailyVisits = SiteVisit::select(
+        $dailyVisits = SiteVisit::human()->select(
             DB::raw('DATE(created_at) as date'),
             DB::raw('COUNT(*) as count')
         )
@@ -48,7 +48,7 @@ class AnalyticsController extends Controller
         }
 
         // Top 10 pages last 30 days
-        $topPages = SiteVisit::select('path', DB::raw('COUNT(*) as count'))
+        $topPages = SiteVisit::human()->select('path', DB::raw('COUNT(*) as count'))
             ->where('created_at', '>=', $thirtyDaysAgo)
             ->groupBy('path')
             ->orderByDesc('count')
@@ -56,7 +56,7 @@ class AnalyticsController extends Controller
             ->get();
 
         // Top 10 cities last 30 days
-        $topCities = SiteVisit::select(
+        $topCities = SiteVisit::human()->select(
             'city',
             'country',
             DB::raw('COUNT(*) as count')
@@ -69,14 +69,14 @@ class AnalyticsController extends Controller
             ->get();
 
         // Visits per site/host last 30 days
-        $visitsByHost = SiteVisit::select('host', DB::raw('COUNT(*) as count'))
+        $visitsByHost = SiteVisit::human()->select('host', DB::raw('COUNT(*) as count'))
             ->where('created_at', '>=', $thirtyDaysAgo)
             ->groupBy('host')
             ->orderByDesc('count')
             ->get();
 
         // Recent 50 visits with optional user info
-        $recentVisits = SiteVisit::with('user:id,name,email')
+        $recentVisits = SiteVisit::human()->with('user:id,name,email')
             ->orderByDesc('created_at')
             ->limit(50)
             ->get()
@@ -96,7 +96,7 @@ class AnalyticsController extends Controller
             ]);
 
         // Visits grouped by IP (last 30 days), ordered by visit count descending
-        $visitsByIp = SiteVisit::select(
+        $visitsByIp = SiteVisit::human()->select(
             'ip_address',
             DB::raw('COUNT(*) as count'),
             DB::raw('MAX(created_at) as last_seen'),

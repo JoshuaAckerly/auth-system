@@ -26,6 +26,16 @@ class SiteVisit extends Model
         'created_at' => 'datetime',
     ];
 
+    // Filters out known bots, crawlers, and scanners by user agent
+    public function scopeHuman($query): void
+    {
+        $query->whereNotNull('user_agent')
+            ->where('user_agent', '!=', '')
+            ->whereRaw("LOWER(user_agent) NOT REGEXP ?", [
+                'bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot',
+            ]);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
