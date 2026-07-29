@@ -121,6 +121,54 @@ class AnalyticsController extends Controller
                 'country' => $row->country,
             ]);
 
+        $socialPatterns = ['facebook', 'instagram', 'tiktok', 'twitter', 'x.com', 'linkedin', 'reddit', 'youtube'];
+
+        $detectPlatform = static function (string $referer): string {
+            $r = strtolower($referer);
+            if (str_contains($r, 'facebook') || str_contains($r, 'fb.com')) return 'Facebook';
+            if (str_contains($r, 'instagram')) return 'Instagram';
+            if (str_contains($r, 'tiktok')) return 'TikTok';
+            if (str_contains($r, 'twitter') || str_contains($r, 'x.com')) return 'X / Twitter';
+            if (str_contains($r, 'linkedin')) return 'LinkedIn';
+            if (str_contains($r, 'reddit')) return 'Reddit';
+            if (str_contains($r, 'youtube')) return 'YouTube';
+            return 'Other';
+        };
+
+        $socialQuery = SiteVisit::human()
+            ->where('created_at', '>=', $thirtyDaysAgo)
+            ->whereNotNull('referer')
+            ->where(function ($q) use ($socialPatterns) {
+                foreach ($socialPatterns as $p) {
+                    $q->orWhere('referer', 'like', "%{$p}%");
+                }
+            });
+
+        $socialVisits = (clone $socialQuery)
+            ->select('referer', 'path', 'host', 'city', 'country', 'ip_address', 'created_at')
+            ->orderByDesc('created_at')
+            ->limit(50)
+            ->get()
+            ->map(fn ($v) => [
+                'platform' => $detectPlatform($v->referer),
+                'referer' => $v->referer,
+                'path' => $v->path,
+                'host' => $v->host,
+                'city' => $v->city,
+                'country' => $v->country,
+                'ip_address' => $v->ip_address,
+                'visited_at' => $v->created_at->toIso8601String(),
+            ]);
+
+        $socialSummary = (clone $socialQuery)
+            ->select('referer', DB::raw('COUNT(*) as count'))
+            ->groupBy('referer')
+            ->get()
+            ->groupBy(fn ($row) => $detectPlatform($row->referer))
+            ->map(fn ($rows) => $rows->sum('count'))
+            ->sortDesc()
+            ->map(fn ($count) => (int) $count);
+
         return Inertia::render('Admin/Analytics/Index', [
             'stats' => [
                 'totalVisits' => $totalVisits,
@@ -135,6 +183,8 @@ class AnalyticsController extends Controller
             'visitsByHost' => $visitsByHost,
             'recentVisits' => $recentVisits,
             'visitsByIp' => $visitsByIp,
+            'socialVisits' => $socialVisits,
+            'socialSummary' => $socialSummary,
         ]);
     }
 }

@@ -72,7 +72,7 @@ function IpRow({ entry }) {
     );
 }
 
-export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, visitsByIp }) {
+export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, visitsByIp, socialVisits, socialSummary }) {
     return (
         <AuthenticatedLayout
             header={
@@ -184,6 +184,60 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                             )}
                         </div>
                     </div>
+
+                    {/* Social Referrals */}
+                    {socialVisits && socialVisits.length > 0 && (
+                        <div className="overflow-hidden rounded-lg bg-white shadow-sm">
+                            <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                                <h3 className="text-sm font-medium text-gray-700">Social Referrals — Last 30 Days</h3>
+                                <span className="text-xs text-gray-400">{socialVisits.length} visits</span>
+                            </div>
+                            {/* Platform summary */}
+                            {socialSummary && Object.keys(socialSummary).length > 0 && (
+                                <div className="flex flex-wrap gap-3 px-6 py-4 border-b border-gray-100">
+                                    {Object.entries(socialSummary).map(([platform, count]) => (
+                                        <div key={platform} className="flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1">
+                                            <span className="text-sm font-medium text-indigo-700">{platform}</span>
+                                            <span className="text-xs font-semibold text-indigo-500">{count}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {/* Individual visits */}
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Platform</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Site</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Page</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100 bg-white">
+                                        {socialVisits.map((v, i) => (
+                                            <tr key={i} className="hover:bg-gray-50">
+                                                <td className="px-4 py-3">
+                                                    <span className="inline-block rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700">
+                                                        {v.platform}
+                                                    </span>
+                                                </td>
+                                                <td className="max-w-[160px] truncate px-4 py-3 text-xs text-gray-500">{v.host ?? '—'}</td>
+                                                <td className="max-w-[160px] truncate px-4 py-3 text-sm text-gray-700">{v.path}</td>
+                                                <td className="px-4 py-3 text-sm text-gray-500">
+                                                    {[v.city, v.country].filter(Boolean).join(', ') || '—'}
+                                                </td>
+                                                <td className="whitespace-nowrap px-4 py-3 text-xs text-gray-400">
+                                                    {new Date(v.visited_at).toLocaleString()}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Recent Visits */}
                     <div className="overflow-hidden rounded-lg bg-white shadow-sm">
