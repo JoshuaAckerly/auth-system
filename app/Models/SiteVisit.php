@@ -20,20 +20,24 @@ class SiteVisit extends Model
         'path',
         'referer',
         'created_at',
+        'is_bot',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
     ];
 
-    // Filters out known bots, crawlers, and scanners by user agent
+    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot/i';
+
+    public static function isBot(?string $userAgent): bool
+    {
+        return empty($userAgent) || (bool) preg_match(self::BOT_PATTERN, $userAgent);
+    }
+
+    // Uses indexed is_bot column — set at write time to avoid full table scans
     public function scopeHuman($query): void
     {
-        $query->whereNotNull('user_agent')
-            ->where('user_agent', '!=', '')
-            ->whereRaw("LOWER(user_agent) NOT REGEXP ?", [
-                'bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot',
-            ]);
+        $query->where('is_bot', false);
     }
 
     public function user(): BelongsTo

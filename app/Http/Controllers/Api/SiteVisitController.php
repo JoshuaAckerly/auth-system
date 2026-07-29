@@ -33,6 +33,7 @@ class SiteVisitController extends Controller
             'user_agent' => $data['user_agent'] ?? null,
             'referer' => $data['referer'] ?? null,
             'created_at' => now(),
+            'is_bot' => SiteVisit::isBot($data['user_agent'] ?? null),
         ]);
 
         if (! empty($data['ip_address'])) {
