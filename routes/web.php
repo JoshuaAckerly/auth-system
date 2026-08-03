@@ -30,12 +30,21 @@ use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\SocialScheduleController;
+use App\Http\Controllers\UserMessageController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/messages', [UserMessageController::class, 'index'])->name('messages.index');
+    Route::post('/messages', [UserMessageController::class, 'store'])->name('messages.store');
+    Route::post('/messages/{id}/read', [UserMessageController::class, 'markRead'])->name('messages.read');
+});
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/create', [AdminMessageController::class, 'create'])->name('messages.create');
     Route::post('/messages', [AdminMessageController::class, 'store'])->name('messages.store');
     Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+    Route::get('/inbox', [AdminMessageController::class, 'inbox'])->name('messages.inbox');
+    Route::post('/inbox/{id}/read', [AdminMessageController::class, 'markRead'])->name('messages.inbox.read');
 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
 

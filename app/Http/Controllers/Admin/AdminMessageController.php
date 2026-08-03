@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AdminMessage;
 use App\Models\User;
+use App\Models\UserMessage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -73,5 +74,26 @@ class AdminMessageController extends Controller
         return Inertia::render('Admin/Messages/Show', [
             'message' => $message,
         ]);
+    }
+
+    public function inbox()
+    {
+        $messages = UserMessage::with('user')
+            ->latest()
+            ->paginate(20);
+
+        $unreadCount = UserMessage::where('is_read', false)->count();
+
+        return Inertia::render('Admin/Messages/Inbox', [
+            'messages' => $messages,
+            'unreadCount' => $unreadCount,
+        ]);
+    }
+
+    public function markRead(Request $request, int $id)
+    {
+        UserMessage::findOrFail($id)->update(['is_read' => true]);
+
+        return back();
     }
 }

@@ -47,13 +47,19 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Studio
                                 </a>
-                                {usePage().props.auth.is_admin && (
+                                {usePage().props.auth.is_admin ? (
                                     <>
                                         <NavLink
                                             href={route('admin.messages.index')}
                                             active={route().current('admin.messages.*')}
                                         >
                                             Messages
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('admin.messages.inbox')}
+                                            active={route().current('admin.messages.inbox')}
+                                        >
+                                            Inbox
                                         </NavLink>
                                         <NavLink
                                             href={route('admin.analytics')}
@@ -74,6 +80,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                             SEO
                                         </NavLink>
                                     </>
+                                ) : (
+                                    <NavLink
+                                        href={route('messages.index')}
+                                        active={route().current('messages.*')}
+                                    >
+                                        Messages
+                                    </NavLink>
                                 )}
                             </div>
                         </div>
@@ -195,13 +208,19 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             Studio
                         </a>
-                        {usePage().props.auth.is_admin && (
+                        {usePage().props.auth.is_admin ? (
                             <>
                                 <ResponsiveNavLink
                                     href={route('admin.messages.index')}
                                     active={route().current('admin.messages.*')}
                                 >
                                     Messages
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('admin.messages.inbox')}
+                                    active={route().current('admin.messages.inbox')}
+                                >
+                                    Inbox
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route('admin.analytics')}
@@ -222,6 +241,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                     SEO
                                 </ResponsiveNavLink>
                             </>
+                        ) : (
+                            <ResponsiveNavLink
+                                href={route('messages.index')}
+                                active={route().current('messages.*')}
+                            >
+                                Messages
+                            </ResponsiveNavLink>
                         )}
                     </div>
 
