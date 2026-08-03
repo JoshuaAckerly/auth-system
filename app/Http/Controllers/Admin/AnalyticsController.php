@@ -125,13 +125,28 @@ class AnalyticsController extends Controller
 
         $detectPlatform = static function (string $referer): string {
             $r = strtolower($referer);
-            if (str_contains($r, 'facebook') || str_contains($r, 'fb.com')) return 'Facebook';
-            if (str_contains($r, 'instagram')) return 'Instagram';
-            if (str_contains($r, 'tiktok')) return 'TikTok';
-            if (str_contains($r, 'twitter') || str_contains($r, 'x.com')) return 'X / Twitter';
-            if (str_contains($r, 'linkedin')) return 'LinkedIn';
-            if (str_contains($r, 'reddit')) return 'Reddit';
-            if (str_contains($r, 'youtube')) return 'YouTube';
+            if (str_contains($r, 'facebook') || str_contains($r, 'fb.com')) {
+                return 'Facebook';
+            }
+            if (str_contains($r, 'instagram')) {
+                return 'Instagram';
+            }
+            if (str_contains($r, 'tiktok')) {
+                return 'TikTok';
+            }
+            if (str_contains($r, 'twitter') || str_contains($r, 'x.com')) {
+                return 'X / Twitter';
+            }
+            if (str_contains($r, 'linkedin')) {
+                return 'LinkedIn';
+            }
+            if (str_contains($r, 'reddit')) {
+                return 'Reddit';
+            }
+            if (str_contains($r, 'youtube')) {
+                return 'YouTube';
+            }
+
             return 'Other';
         };
 
@@ -195,7 +210,7 @@ class AnalyticsController extends Controller
         $qualifyingIps = $potentialClientRows->pluck('ip_address')->all();
 
         $pagesPerIp = [];
-        if (!empty($qualifyingIps)) {
+        if (! empty($qualifyingIps)) {
             SiteVisit::human()
                 ->select('ip_address', 'path', DB::raw('COUNT(*) as cnt'))
                 ->where('created_at', '>=', $ninetyDaysAgo)
