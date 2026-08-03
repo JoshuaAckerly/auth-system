@@ -169,6 +169,60 @@ class AnalyticsController extends Controller
             ->sortDesc()
             ->map(fn ($count) => (int) $count);
 
+        // Potential clients: IPs with 3+ visits to the main GJ site in 90 days
+        $ninetyDaysAgo = $now->copy()->subDays(90);
+
+        $potentialClientRows = SiteVisit::human()
+            ->select(
+                'ip_address',
+                DB::raw('COUNT(*) as visit_count'),
+                DB::raw('COUNT(DISTINCT path) as unique_pages'),
+                DB::raw('MAX(created_at) as last_seen'),
+                DB::raw('MIN(created_at) as first_seen'),
+                DB::raw('MAX(city) as city'),
+                DB::raw('MAX(region) as region'),
+                DB::raw('MAX(country) as country')
+            )
+            ->where('created_at', '>=', $ninetyDaysAgo)
+            ->where('host', 'like', '%graveyardjokes%')
+            ->whereNotNull('ip_address')
+            ->groupBy('ip_address')
+            ->havingRaw('COUNT(*) >= 3')
+            ->orderByDesc('visit_count')
+            ->limit(50)
+            ->get();
+
+        $qualifyingIps = $potentialClientRows->pluck('ip_address')->all();
+
+        $pagesPerIp = [];
+        if (!empty($qualifyingIps)) {
+            SiteVisit::human()
+                ->select('ip_address', 'path', DB::raw('COUNT(*) as cnt'))
+                ->where('created_at', '>=', $ninetyDaysAgo)
+                ->where('host', 'like', '%graveyardjokes%')
+                ->whereIn('ip_address', $qualifyingIps)
+                ->groupBy('ip_address', 'path')
+                ->orderByDesc('cnt')
+                ->get()
+                ->each(function ($row) use (&$pagesPerIp) {
+                    if (count($pagesPerIp[$row->ip_address] ?? []) < 5) {
+                        $pagesPerIp[$row->ip_address][] = $row->path;
+                    }
+                });
+        }
+
+        $potentialClients = $potentialClientRows->map(fn ($row) => [
+            'ip_address' => $row->ip_address,
+            'visit_count' => (int) $row->visit_count,
+            'unique_pages' => (int) $row->unique_pages,
+            'last_seen' => $row->last_seen,
+            'first_seen' => $row->first_seen,
+            'city' => $row->city,
+            'region' => $row->region,
+            'country' => $row->country,
+            'pages' => $pagesPerIp[$row->ip_address] ?? [],
+        ]);
+
         return Inertia::render('Admin/Analytics/Index', [
             'stats' => [
                 'totalVisits' => $totalVisits,
@@ -185,6 +239,7 @@ class AnalyticsController extends Controller
             'visitsByIp' => $visitsByIp,
             'socialVisits' => $socialVisits,
             'socialSummary' => $socialSummary,
+            'potentialClients' => $potentialClients,
         ]);
     }
 }

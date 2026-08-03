@@ -72,7 +72,68 @@ function IpRow({ entry }) {
     );
 }
 
-export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, visitsByIp, socialVisits, socialSummary }) {
+const CONTACT_PAGES = ['/contact', '/services', '/pricing', '/work-with-us', '/hire', '/get-started'];
+
+function heatLabel(count) {
+    if (count >= 10) return { label: 'Very Hot', cls: 'bg-red-100 text-red-700' };
+    if (count >= 6)  return { label: 'Hot',      cls: 'bg-orange-100 text-orange-700' };
+    return               { label: 'Warm',     cls: 'bg-amber-100 text-amber-700' };
+}
+
+function PotentialClientRow({ client }) {
+    const [open, setOpen] = React.useState(false);
+    const location = [client.city, client.region, client.country].filter(Boolean).join(', ');
+    const heat = heatLabel(client.visit_count);
+    const touchedContact = client.pages.some((p) => CONTACT_PAGES.some((cp) => p.startsWith(cp)));
+
+    return (
+        <>
+            <tr className="cursor-pointer hover:bg-gray-50" onClick={() => setOpen((o) => !o)}>
+                <td className="px-4 py-3 font-mono text-xs text-gray-700">{client.ip_address}</td>
+                <td className="px-4 py-3">
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${heat.cls}`}>
+                        {heat.label}
+                    </span>
+                </td>
+                <td className="px-4 py-3 text-sm font-semibold text-gray-900">{client.visit_count.toLocaleString()}</td>
+                <td className="px-4 py-3 text-sm text-gray-500">{client.unique_pages}</td>
+                <td className="px-4 py-3 text-sm text-gray-500">{location || '—'}</td>
+                <td className="px-4 py-3">
+                    {touchedContact && (
+                        <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                            Contact interest
+                        </span>
+                    )}
+                </td>
+                <td className="whitespace-nowrap px-4 py-3 text-xs text-gray-400">
+                    {client.last_seen ? new Date(client.last_seen).toLocaleDateString() : '—'}
+                </td>
+                <td className="px-4 py-3 text-center text-xs text-indigo-500 select-none">{open ? '▲' : '▼'}</td>
+            </tr>
+            {open && (
+                <tr>
+                    <td colSpan={8} className="bg-gray-50 px-6 py-3">
+                        <p className="mb-1.5 text-xs font-medium text-gray-500 uppercase tracking-wide">Pages visited</p>
+                        <div className="flex flex-wrap gap-2">
+                            {client.pages.length > 0
+                                ? client.pages.map((p) => (
+                                      <span key={p} className="rounded bg-white border border-gray-200 px-2 py-0.5 font-mono text-xs text-gray-600">
+                                          {p}
+                                      </span>
+                                  ))
+                                : <span className="text-xs text-gray-400">—</span>}
+                        </div>
+                        <p className="mt-2 text-xs text-gray-400">
+                            First visit: {client.first_seen ? new Date(client.first_seen).toLocaleString() : '—'}
+                        </p>
+                    </td>
+                </tr>
+            )}
+        </>
+    );
+}
+
+export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, visitsByIp, socialVisits, socialSummary, potentialClients = [] }) {
     return (
         <AuthenticatedLayout
             header={
@@ -313,6 +374,46 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                                     {new Date(v.visited_at).toLocaleString()}
                                                 </td>
                                             </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Potential Clients */}
+                    <div className="overflow-hidden rounded-lg bg-white shadow-sm">
+                        <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                            <div>
+                                <h3 className="text-sm font-medium text-gray-700">Potential Clients</h3>
+                                <p className="mt-0.5 text-xs text-gray-400">
+                                    Returning visitors to graveyardjokes.com — 3+ visits in the last 90 days
+                                </p>
+                            </div>
+                            <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
+                                {potentialClients.length} leads
+                            </span>
+                        </div>
+                        {potentialClients.length === 0 ? (
+                            <p className="p-6 text-sm text-gray-400">No returning visitors yet — check back after more traffic.</p>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">IP Address</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Heat</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Visits</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Unique Pages</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Signal</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Last Visit</th>
+                                            <th className="px-4 py-3" />
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100 bg-white">
+                                        {potentialClients.map((client) => (
+                                            <PotentialClientRow key={client.ip_address} client={client} />
                                         ))}
                                     </tbody>
                                 </table>
