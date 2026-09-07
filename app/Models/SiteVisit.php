@@ -70,6 +70,17 @@ class SiteVisit extends Model
                 $q->whereNull('ip_address')->orWhereNotIn('ip_address', $excludedIps);
             });
         }
+
+        // Scanners rotate user agents per-request but don't share dedicated infrastructure
+        // with real visitors — an IP caught once is bot traffic for all its other requests too.
+        $query->where(function ($q) {
+            $q->whereNull('ip_address')->orWhereNotIn('ip_address', function ($sub) {
+                $sub->select('ip_address')
+                    ->from('site_visits')
+                    ->where('is_bot', true)
+                    ->whereNotNull('ip_address');
+            });
+        });
     }
 
     public function user(): BelongsTo
