@@ -40,38 +40,6 @@ function BarChart({ data }) {
     );
 }
 
-function IpRow({ entry }) {
-    const [open, setOpen] = React.useState(false);
-    const location = [entry.city, entry.region, entry.country].filter(Boolean).join(', ');
-    return (
-        <>
-            <tr
-                className="cursor-pointer hover:bg-gray-50"
-                onClick={() => setOpen((o) => !o)}
-            >
-                <td className="px-4 py-3 font-mono text-xs text-gray-700">{entry.ip_address}</td>
-                <td className="px-4 py-3 text-sm text-gray-700">{entry.count.toLocaleString()}</td>
-                <td className="px-4 py-3 text-sm text-gray-500">{location || '—'}</td>
-                <td className="whitespace-nowrap px-4 py-3 text-xs text-gray-400">
-                    {entry.last_seen ? new Date(entry.last_seen).toLocaleString() : '—'}
-                </td>
-                <td className="px-4 py-3 text-center text-xs text-indigo-500 select-none">
-                    {open ? '▲' : '▼'}
-                </td>
-            </tr>
-            {open && (
-                <tr>
-                    <td colSpan={5} className="bg-gray-50 px-6 py-3">
-                        <p className="text-xs text-gray-400">
-                            First seen: {entry.first_seen ? new Date(entry.first_seen).toLocaleString() : '—'}
-                        </p>
-                    </td>
-                </tr>
-            )}
-        </>
-    );
-}
-
 const CONTACT_PAGES = ['/contact', '/services', '/pricing', '/work-with-us', '/hire', '/get-started'];
 
 function heatLabel(count) {
@@ -133,7 +101,7 @@ function PotentialClientRow({ client }) {
     );
 }
 
-export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, visitsByIp, socialVisits, socialSummary, potentialClients = [] }) {
+export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, socialVisits, socialSummary, potentialClients = [] }) {
     return (
         <AuthenticatedLayout
             header={
@@ -414,35 +382,6 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                     <tbody className="divide-y divide-gray-100 bg-white">
                                         {potentialClients.map((client) => (
                                             <PotentialClientRow key={client.ip_address} client={client} />
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Visitors by IP */}
-                    <div className="overflow-hidden rounded-lg bg-white shadow-sm">
-                        <div className="border-b border-gray-200 px-6 py-4">
-                            <h3 className="text-sm font-medium text-gray-700">Visitors by IP — Last 30 Days</h3>
-                        </div>
-                        {!visitsByIp || visitsByIp.length === 0 ? (
-                            <p className="p-6 text-sm text-gray-400">No IP data recorded yet.</p>
-                        ) : (
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">IP Address</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Visits</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Last Seen</th>
-                                            <th className="px-4 py-3" />
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100 bg-white">
-                                        {visitsByIp.map((entry) => (
-                                            <IpRow key={entry.ip_address} entry={entry} />
                                         ))}
                                     </tbody>
                                 </table>

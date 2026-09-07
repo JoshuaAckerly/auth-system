@@ -95,32 +95,6 @@ class AnalyticsController extends Controller
                 'visited_at' => $v->created_at->toIso8601String(),
             ]);
 
-        // Visits grouped by IP (last 30 days), ordered by visit count descending
-        $visitsByIp = SiteVisit::human()->select(
-            'ip_address',
-            DB::raw('COUNT(*) as count'),
-            DB::raw('MAX(created_at) as last_seen'),
-            DB::raw('MIN(created_at) as first_seen'),
-            DB::raw('MAX(city) as city'),
-            DB::raw('MAX(region) as region'),
-            DB::raw('MAX(country) as country')
-        )
-            ->where('created_at', '>=', $thirtyDaysAgo)
-            ->whereNotNull('ip_address')
-            ->groupBy('ip_address')
-            ->orderByDesc('count')
-            ->limit(100)
-            ->get()
-            ->map(fn ($row) => [
-                'ip_address' => $row->ip_address,
-                'count' => (int) $row->count,
-                'last_seen' => $row->last_seen,
-                'first_seen' => $row->first_seen,
-                'city' => $row->city,
-                'region' => $row->region,
-                'country' => $row->country,
-            ]);
-
         $socialPatterns = ['facebook', 'instagram', 'tiktok', 'twitter', 'x.com', 'linkedin', 'reddit', 'youtube'];
 
         $detectPlatform = static function (string $referer): string {
@@ -251,7 +225,6 @@ class AnalyticsController extends Controller
             'topCities' => $topCities,
             'visitsByHost' => $visitsByHost,
             'recentVisits' => $recentVisits,
-            'visitsByIp' => $visitsByIp,
             'socialVisits' => $socialVisits,
             'socialSummary' => $socialSummary,
             'potentialClients' => $potentialClients,
