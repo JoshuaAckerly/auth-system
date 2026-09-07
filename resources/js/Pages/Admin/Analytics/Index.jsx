@@ -4,10 +4,58 @@ import React from 'react';
 
 function StatCard({ label, value, sub }) {
     return (
-        <div className="overflow-hidden rounded-lg bg-white px-6 py-5 shadow-sm">
-            <p className="truncate text-sm font-medium text-gray-500">{label}</p>
-            <p className="mt-1 text-3xl font-semibold text-gray-900">{value.toLocaleString()}</p>
-            {sub && <p className="mt-1 text-xs text-gray-400">{sub}</p>}
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-3 shadow-sm">
+            <p className="truncate text-xs font-medium text-gray-500">{label}</p>
+            <p className="mt-0.5 text-2xl font-semibold text-gray-900">{value.toLocaleString()}</p>
+            {sub && <p className="mt-0.5 text-[11px] text-gray-400">{sub}</p>}
+        </div>
+    );
+}
+
+function ChevronIcon({ open }) {
+    return (
+        <svg
+            className={`h-4 w-4 shrink-0 text-gray-400 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}
+            viewBox="0 0 20 20"
+            fill="currentColor"
+        >
+            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+        </svg>
+    );
+}
+
+// Collapsible card — open/closed state persists per-section across visits via localStorage
+function Section({ id, title, subtitle, badge, defaultOpen = true, children }) {
+    const storageKey = `gj-analytics-${id}`;
+    const [open, setOpen] = React.useState(() => {
+        if (typeof window === 'undefined') return defaultOpen;
+        const stored = window.localStorage.getItem(storageKey);
+        return stored === null ? defaultOpen : stored === '1';
+    });
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem(storageKey, open ? '1' : '0');
+        }
+    }, [open, storageKey]);
+
+    return (
+        <div className="overflow-hidden rounded-lg bg-white shadow-sm">
+            <button
+                type="button"
+                onClick={() => setOpen((o) => !o)}
+                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+            >
+                <div className="min-w-0">
+                    <h3 className="text-sm font-medium text-gray-700">{title}</h3>
+                    {subtitle && <p className="mt-0.5 truncate text-xs text-gray-400">{subtitle}</p>}
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                    {badge}
+                    <ChevronIcon open={open} />
+                </div>
+            </button>
+            {open && <div className="border-t border-gray-100">{children}</div>}
         </div>
     );
 }
@@ -15,7 +63,7 @@ function StatCard({ label, value, sub }) {
 function BarChart({ data }) {
     const max = Math.max(...data.map((d) => parseInt(d.count)), 1);
     return (
-        <div className="flex h-32 items-end gap-1">
+        <div className="flex h-24 items-end gap-1">
             {data.map((d) => {
                 const count = parseInt(d.count);
                 const height = Math.round((count / max) * 100);
@@ -26,17 +74,50 @@ function BarChart({ data }) {
                 return (
                     <div key={d.date} className="group relative flex-1 h-full flex flex-col justify-end">
                         <div
-                            className="w-full rounded-t bg-indigo-400 transition-all"
+                            className="w-full rounded-t bg-indigo-400 transition-all group-hover:bg-indigo-500"
                             style={{ height: `${height}%` }}
                         />
                         {/* tooltip on hover */}
-                        <div className="pointer-events-none absolute bottom-full mb-1 hidden rounded bg-gray-800 px-2 py-1 text-xs text-white group-hover:block whitespace-nowrap">
+                        <div className="pointer-events-none absolute bottom-full z-10 mb-1 hidden rounded bg-gray-800 px-2 py-1 text-xs text-white group-hover:block whitespace-nowrap">
                             {label}: {count}
                         </div>
                     </div>
                 );
             })}
         </div>
+    );
+}
+
+const DONUT_COLORS = ['#6366f1', '#f59e0b', '#10b981', '#ec4899', '#3b82f6', '#ef4444', '#14b8a6', '#a855f7', '#f97316', '#84cc16', '#0ea5e9', '#eab308'];
+
+// r=15.9155 makes the circumference exactly 100, so strokeDasharray can use raw percentages
+function DonutChart({ data }) {
+    const total = data.reduce((s, d) => s + parseInt(d.count), 0) || 1;
+    const radius = 15.9155;
+    let acc = 0;
+
+    return (
+        <svg viewBox="0 0 36 36" className="h-28 w-28 shrink-0 -rotate-90">
+            <circle cx="18" cy="18" r={radius} fill="transparent" stroke="#f3f4f6" strokeWidth="6" />
+            {data.map((d, i) => {
+                const pct = (parseInt(d.count) / total) * 100;
+                const circle = (
+                    <circle
+                        key={d.host ?? i}
+                        cx="18"
+                        cy="18"
+                        r={radius}
+                        fill="transparent"
+                        stroke={DONUT_COLORS[i % DONUT_COLORS.length]}
+                        strokeWidth="6"
+                        strokeDasharray={`${pct} ${100 - pct}`}
+                        strokeDashoffset={-acc}
+                    />
+                );
+                acc += pct;
+                return circle;
+            })}
+        </svg>
     );
 }
 
@@ -102,6 +183,8 @@ function PotentialClientRow({ client }) {
 }
 
 export default function Index({ stats, dailyChart, topPages, topCities, visitsByHost, recentVisits, socialVisits, socialSummary, potentialClients = [] }) {
+    const hostTotal = visitsByHost.reduce((s, x) => s + parseInt(x.count), 0) || 1;
+
     return (
         <AuthenticatedLayout
             header={
@@ -112,11 +195,11 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
         >
             <Head title="Analytics" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-8 sm:px-6 lg:px-8">
+            <div className="py-6">
+                <div className="mx-auto max-w-7xl space-y-4 sm:px-6 lg:px-8">
 
                     {/* Stats */}
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                         <StatCard label="Total Visits" value={stats.totalVisits} />
                         <StatCard label="Last 30 Days" value={stats.visitsLast30Days} />
                         <StatCard label="Last 7 Days" value={stats.visitsLast7Days} />
@@ -128,64 +211,59 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                         />
                     </div>
 
-                    {/* Visits by Site */}
-                    {visitsByHost.length > 0 && (
-                        <div className="overflow-hidden rounded-lg bg-white p-6 shadow-sm">
-                            <h3 className="mb-4 text-sm font-medium text-gray-700">Visits by Site (30d)</h3>
-                            <div className="flex flex-wrap gap-3">
-                                {visitsByHost.map((h) => {
-                                    const total = visitsByHost.reduce((s, x) => s + parseInt(x.count), 0);
-                                    const pct = total > 0 ? Math.round((parseInt(h.count) / total) * 100) : 0;
-                                    return (
-                                        <div key={h.host} className="flex flex-1 min-w-[160px] flex-col rounded-lg border border-gray-200 p-4">
-                                            <span className="truncate text-sm font-medium text-gray-800">{h.host ?? 'unknown'}</span>
-                                            <div className="mt-2 h-1.5 w-full rounded-full bg-gray-100">
-                                                <div className="h-1.5 rounded-full bg-indigo-400" style={{ width: `${pct}%` }} />
-                                            </div>
-                                            <div className="mt-1 flex justify-between text-xs text-gray-400">
-                                                <span>{parseInt(h.count).toLocaleString()} visits</span>
-                                                <span>{pct}%</span>
-                                            </div>
-                                            {h.last_visited && (
-                                                <p className="mt-1 text-[11px] text-gray-400">
-                                                    Last visit: {new Date(h.last_visited).toLocaleString()}
-                                                </p>
-                                            )}
-                                        </div>
-                                    );
-                                })}
+                    {/* Trend + Site distribution */}
+                    <div className="grid gap-4 lg:grid-cols-2">
+                        <Section id="daily-trend" title="Daily Visits" subtitle="Last 14 days">
+                            <div className="p-4">
+                                <BarChart data={dailyChart} />
+                                <div className="mt-2 flex justify-between text-xs text-gray-400">
+                                    <span>
+                                        {new Date(dailyChart[0]?.date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                    </span>
+                                    <span>
+                                        {new Date(dailyChart[dailyChart.length - 1]?.date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        </Section>
 
-                    {/* Daily chart */}
-                    <div className="overflow-hidden rounded-lg bg-white p-6 shadow-sm">
-                        <h3 className="mb-4 text-sm font-medium text-gray-700">
-                            Daily Visits — Last 14 Days
-                        </h3>
-                        <BarChart data={dailyChart} />
-                        <div className="mt-2 flex justify-between text-xs text-gray-400">
-                            <span>
-                                {new Date(dailyChart[0]?.date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                            </span>
-                            <span>
-                                {new Date(dailyChart[dailyChart.length - 1]?.date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                            </span>
-                        </div>
+                        {visitsByHost.length > 0 && (
+                            <Section id="visits-by-site" title="Visits by Site" subtitle="Last 30 days">
+                                <div className="flex flex-col items-center gap-4 p-4 sm:flex-row">
+                                    <DonutChart data={visitsByHost} />
+                                    <ul className="w-full min-w-0 divide-y divide-gray-100">
+                                        {visitsByHost.map((h, i) => {
+                                            const pct = Math.round((parseInt(h.count) / hostTotal) * 100);
+                                            return (
+                                                <li key={h.host} className="flex items-center justify-between gap-2 py-1.5 text-sm">
+                                                    <span className="flex min-w-0 items-center gap-2">
+                                                        <span
+                                                            className="h-2.5 w-2.5 shrink-0 rounded-full"
+                                                            style={{ backgroundColor: DONUT_COLORS[i % DONUT_COLORS.length] }}
+                                                        />
+                                                        <span className="truncate text-gray-700">{h.host ?? 'unknown'}</span>
+                                                    </span>
+                                                    <span className="shrink-0 text-xs text-gray-400">
+                                                        {parseInt(h.count).toLocaleString()} · {pct}%
+                                                    </span>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            </Section>
+                        )}
                     </div>
 
-                    <div className="grid gap-6 lg:grid-cols-3">
-                        {/* Top Pages */}
-                        <div className="overflow-hidden rounded-lg bg-white shadow-sm lg:col-span-1">
-                            <div className="border-b border-gray-200 px-6 py-4">
-                                <h3 className="text-sm font-medium text-gray-700">Top Pages (30d)</h3>
-                            </div>
+                    {/* Top Pages / Top Cities */}
+                    <div className="grid gap-4 lg:grid-cols-2">
+                        <Section id="top-pages" title="Top Pages" subtitle="Last 30 days">
                             {topPages.length === 0 ? (
-                                <p className="p-6 text-sm text-gray-400">No data yet.</p>
+                                <p className="p-4 text-sm text-gray-400">No data yet.</p>
                             ) : (
                                 <ul className="divide-y divide-gray-100">
                                     {topPages.map((p) => (
-                                        <li key={p.path} className="flex items-center justify-between px-6 py-3">
+                                        <li key={p.path} className="flex items-center justify-between px-4 py-2.5">
                                             <div className="max-w-[75%] truncate">
                                                 <span className="block truncate text-sm text-gray-700">{p.path}</span>
                                                 {p.last_visited && (
@@ -199,19 +277,15 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                     ))}
                                 </ul>
                             )}
-                        </div>
+                        </Section>
 
-                        {/* Top Cities */}
-                        <div className="overflow-hidden rounded-lg bg-white shadow-sm lg:col-span-1">
-                            <div className="border-b border-gray-200 px-6 py-4">
-                                <h3 className="text-sm font-medium text-gray-700">Top Cities (30d)</h3>
-                            </div>
+                        <Section id="top-cities" title="Top Cities" subtitle="Last 30 days">
                             {topCities.length === 0 ? (
-                                <p className="p-6 text-sm text-gray-400">Location data pending…</p>
+                                <p className="p-4 text-sm text-gray-400">Location data pending…</p>
                             ) : (
                                 <ul className="divide-y divide-gray-100">
                                     {topCities.map((c) => (
-                                        <li key={`${c.city}-${c.country}`} className="flex items-center justify-between px-6 py-3">
+                                        <li key={`${c.city}-${c.country}`} className="flex items-center justify-between px-4 py-2.5">
                                             <div>
                                                 <span className="text-sm text-gray-700">
                                                     {c.city}
@@ -230,19 +304,59 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                     ))}
                                 </ul>
                             )}
-                        </div>
+                        </Section>
                     </div>
+
+                    {/* Potential Clients */}
+                    <Section
+                        id="potential-clients"
+                        title="Potential Clients"
+                        subtitle="Returning visitors to graveyardjokes.com — 3+ visits in the last 90 days"
+                        badge={
+                            <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
+                                {potentialClients.length} leads
+                            </span>
+                        }
+                    >
+                        {potentialClients.length === 0 ? (
+                            <p className="p-4 text-sm text-gray-400">No returning visitors yet — check back after more traffic.</p>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">IP Address</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Heat</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Visits</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Unique Pages</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Signal</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Last Visit</th>
+                                            <th className="px-4 py-3" />
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100 bg-white">
+                                        {potentialClients.map((client) => (
+                                            <PotentialClientRow key={client.ip_address} client={client} />
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </Section>
 
                     {/* Social Referrals */}
                     {socialVisits && socialVisits.length > 0 && (
-                        <div className="overflow-hidden rounded-lg bg-white shadow-sm">
-                            <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                                <h3 className="text-sm font-medium text-gray-700">Social Referrals — Last 30 Days</h3>
-                                <span className="text-xs text-gray-400">{socialVisits.length} visits</span>
-                            </div>
+                        <Section
+                            id="social-referrals"
+                            title="Social Referrals"
+                            subtitle="Last 30 days"
+                            badge={<span className="text-xs text-gray-400">{socialVisits.length} visits</span>}
+                            defaultOpen={false}
+                        >
                             {/* Platform summary */}
                             {socialSummary && Object.keys(socialSummary).length > 0 && (
-                                <div className="flex flex-wrap gap-3 px-6 py-4 border-b border-gray-100">
+                                <div className="flex flex-wrap gap-3 px-4 py-3 border-b border-gray-100">
                                     {Object.entries(socialSummary).map(([platform, count]) => (
                                         <div key={platform} className="flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1">
                                             <span className="text-sm font-medium text-indigo-700">{platform}</span>
@@ -284,16 +398,13 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </Section>
                     )}
 
                     {/* Recent Visits */}
-                    <div className="overflow-hidden rounded-lg bg-white shadow-sm">
-                        <div className="border-b border-gray-200 px-6 py-4">
-                            <h3 className="text-sm font-medium text-gray-700">Recent Visits</h3>
-                        </div>
+                    <Section id="recent-visits" title="Recent Visits" defaultOpen={false}>
                         {recentVisits.length === 0 ? (
-                            <p className="p-6 text-sm text-gray-400">No visits recorded yet.</p>
+                            <p className="p-4 text-sm text-gray-400">No visits recorded yet.</p>
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="min-w-full divide-y divide-gray-200">
@@ -366,47 +477,7 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                 </table>
                             </div>
                         )}
-                    </div>
-
-                    {/* Potential Clients */}
-                    <div className="overflow-hidden rounded-lg bg-white shadow-sm">
-                        <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                            <div>
-                                <h3 className="text-sm font-medium text-gray-700">Potential Clients</h3>
-                                <p className="mt-0.5 text-xs text-gray-400">
-                                    Returning visitors to graveyardjokes.com — 3+ visits in the last 90 days
-                                </p>
-                            </div>
-                            <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
-                                {potentialClients.length} leads
-                            </span>
-                        </div>
-                        {potentialClients.length === 0 ? (
-                            <p className="p-6 text-sm text-gray-400">No returning visitors yet — check back after more traffic.</p>
-                        ) : (
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">IP Address</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Heat</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Visits</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Unique Pages</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Signal</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Last Visit</th>
-                                            <th className="px-4 py-3" />
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100 bg-white">
-                                        {potentialClients.map((client) => (
-                                            <PotentialClientRow key={client.ip_address} client={client} />
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </div>
+                    </Section>
 
                 </div>
             </div>
