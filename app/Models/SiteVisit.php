@@ -36,9 +36,17 @@ class SiteVisit extends Model
     // Loopback IPs can never be a real internet visitor — always local/internal traffic
     private const LOOPBACK_IPS = ['127.0.0.1', '::1', 'localhost'];
 
-    public static function isBot(?string $userAgent, ?string $ip = null): bool
+    // Paths only vulnerability scanners request — no real visitor types these into a browser.
+    // Scanners routinely spoof legitimate browser user agents, so this check is UA-independent.
+    private const SCAN_PATH_PATTERN = '#\.env|\.git/|wp-admin|wp-content|wp-login|wp-config|wp-json|xmlrpc\.php|phpmyadmin|\.aws/|\.ssh/|\.docker|eval-stdin|\.well-known/security|vendor/phpunit|config\.json$|config\.js$|\.htpasswd|\.htaccess|\.bak$|\.sql$|\.zip$|\.tar\.gz$#i';
+
+    public static function isBot(?string $userAgent, ?string $ip = null, ?string $path = null): bool
     {
         if ($ip !== null && in_array($ip, self::LOOPBACK_IPS, true)) {
+            return true;
+        }
+
+        if ($path !== null && preg_match(self::SCAN_PATH_PATTERN, $path)) {
             return true;
         }
 
