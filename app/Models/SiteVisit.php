@@ -28,7 +28,10 @@ class SiteVisit extends Model
         'created_at' => 'datetime',
     ];
 
-    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot|powershell|symfony|http-client|libwww-perl|axios|node-fetch|postmanruntime|insomnia|okhttp|winhttp|guzzle|mistralai|anthropic-ai/i';
+    // "(compatible; ...)" is how virtually every crawler/audit-tool self-identifies (Googlebot,
+    // NetcraftSurveyAgent, RSiteAuditor, etc.) — real browsers stopped using this token years ago,
+    // and "Trident/" (old IE engine) UAs seen today are always spoofed, never a real visitor
+    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot|powershell|symfony|http-client|libwww-perl|axios|node-fetch|postmanruntime|insomnia|okhttp|winhttp|guzzle|mistralai|anthropic-ai|compatible;|trident\//i';
 
     // Cloud/hosting ASN orgs (from ipinfo "org" field) are almost always scrapers, not real visitors
     private const HOSTING_ORG_PATTERN = '/amazon|aws|microsoft|azure|google|digitalocean|ovh|hetzner|linode|akamai|oracle|alibaba|tencent|cloudflare|vultr|choopa|contabo|scaleway|leaseweb|hostinger|godaddy|ionos|datacamp|m247|psychz|zenlayer|ddos-guard|colocrossing|hostwinds|namecheap/i';
