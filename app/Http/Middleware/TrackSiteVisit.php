@@ -26,15 +26,16 @@ class TrackSiteVisit
             $ip = $request->ip();
             $ua = $request->userAgent();
             $path = '/'.ltrim($request->path(), '/');
+            $host = $request->getHost();
             $visit = SiteVisit::create([
                 'user_id' => $request->user()?->id,
-                'host' => $request->getHost(),
+                'host' => $host,
                 'ip_address' => $ip,
                 'user_agent' => $ua,
                 'path' => $path,
                 'referer' => $request->headers->get('referer'),
                 'created_at' => now(),
-                'is_bot' => SiteVisit::isBot($ua, $ip, $path),
+                'is_bot' => SiteVisit::isBot($ua, $ip, $path, $host),
             ]);
 
             LookupVisitLocation::dispatch($visit->id, $ip);

@@ -43,13 +43,39 @@ class SiteVisit extends Model
     // Scanners routinely spoof legitimate browser user agents, so this check is UA-independent.
     private const SCAN_PATH_PATTERN = '#\.\.|\.env|\.git/|wp-admin|wp-content|wp-login|wp-config|wp-json|xmlrpc\.php|phpmyadmin|\.aws/|\.ssh/|\.docker|eval-stdin|\.well-known/security|vendor/phpunit|config\.json$|config\.js$|\.htpasswd|\.htaccess|\.bak$|\.sql$|\.zip$|\.tar\.gz$|actuator|core/CHANGELOG|user/login|remote/login|rest/login|dana-na|WebInterface/Login|composer\.json$|mgmt/shared/authn|global-protect|tmui/login|fortisandbox|\.s3cfg|\.boto|s3cfg|s3credentials|aws-credentials|server-status|cacti|cpanel|administrator/|control/main|SetupWizard\.aspx#i';
 
-    public static function isBot(?string $userAgent, ?string $ip = null, ?string $path = null): bool
+    // Real traffic only ever arrives with one of these Host headers. Anything else — a raw IP,
+    // the AWS ec2-*.compute.amazonaws.com hostname, or an unrelated third-party domain — means a
+    // scanner connected directly to the server IP and spoofed the Host header.
+    private const ALLOWED_HOST_SUFFIXES = ['graveyardjokes.com', 'palineofficial.com'];
+
+    public static function isRecognizedHost(?string $host): bool
+    {
+        if (empty($host)) {
+            return false;
+        }
+
+        $host = strtolower($host);
+
+        foreach (self::ALLOWED_HOST_SUFFIXES as $suffix) {
+            if ($host === $suffix || str_ends_with($host, '.'.$suffix)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function isBot(?string $userAgent, ?string $ip = null, ?string $path = null, ?string $host = null): bool
     {
         if ($ip !== null && in_array($ip, self::LOOPBACK_IPS, true)) {
             return true;
         }
 
         if ($path !== null && preg_match(self::SCAN_PATH_PATTERN, $path)) {
+            return true;
+        }
+
+        if ($host !== null && ! self::isRecognizedHost($host)) {
             return true;
         }
 
