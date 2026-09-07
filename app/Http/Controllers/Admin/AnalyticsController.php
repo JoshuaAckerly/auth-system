@@ -47,32 +47,37 @@ class AnalyticsController extends Controller
             ];
         }
 
-        // Top 10 pages last 30 days
-        $topPages = SiteVisit::human()->select('path', DB::raw('COUNT(*) as count'))
+        // Top 10 pages last 30 days, displayed newest-visited first
+        $topPages = SiteVisit::human()->select('path', DB::raw('COUNT(*) as count'), DB::raw('MAX(created_at) as last_visited'))
             ->where('created_at', '>=', $thirtyDaysAgo)
             ->groupBy('path')
             ->orderByDesc('count')
             ->limit(10)
-            ->get();
+            ->get()
+            ->sortByDesc('last_visited')
+            ->values();
 
-        // Top 10 cities last 30 days
+        // Top 10 cities last 30 days, displayed newest-visited first
         $topCities = SiteVisit::human()->select(
             'city',
             'country',
-            DB::raw('COUNT(*) as count')
+            DB::raw('COUNT(*) as count'),
+            DB::raw('MAX(created_at) as last_visited')
         )
             ->where('created_at', '>=', $thirtyDaysAgo)
             ->whereNotNull('city')
             ->groupBy('city', 'country')
             ->orderByDesc('count')
             ->limit(10)
-            ->get();
+            ->get()
+            ->sortByDesc('last_visited')
+            ->values();
 
-        // Visits per site/host last 30 days
-        $visitsByHost = SiteVisit::human()->select('host', DB::raw('COUNT(*) as count'))
+        // Visits per site/host last 30 days, newest-visited first
+        $visitsByHost = SiteVisit::human()->select('host', DB::raw('COUNT(*) as count'), DB::raw('MAX(created_at) as last_visited'))
             ->where('created_at', '>=', $thirtyDaysAgo)
             ->groupBy('host')
-            ->orderByDesc('count')
+            ->orderByDesc('last_visited')
             ->get();
 
         // Recent 50 visits with optional user info
@@ -179,7 +184,9 @@ class AnalyticsController extends Controller
             ->havingRaw('COUNT(*) >= 3')
             ->orderByDesc('visit_count')
             ->limit(50)
-            ->get();
+            ->get()
+            ->sortByDesc('last_seen')
+            ->values();
 
         $qualifyingIps = $potentialClientRows->pluck('ip_address')->all();
 

@@ -146,6 +146,11 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                                 <span>{parseInt(h.count).toLocaleString()} visits</span>
                                                 <span>{pct}%</span>
                                             </div>
+                                            {h.last_visited && (
+                                                <p className="mt-1 text-[11px] text-gray-400">
+                                                    Last visit: {new Date(h.last_visited).toLocaleString()}
+                                                </p>
+                                            )}
                                         </div>
                                     );
                                 })}
@@ -181,7 +186,14 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                 <ul className="divide-y divide-gray-100">
                                     {topPages.map((p) => (
                                         <li key={p.path} className="flex items-center justify-between px-6 py-3">
-                                            <span className="max-w-[75%] truncate text-sm text-gray-700">{p.path}</span>
+                                            <div className="max-w-[75%] truncate">
+                                                <span className="block truncate text-sm text-gray-700">{p.path}</span>
+                                                {p.last_visited && (
+                                                    <span className="text-[11px] text-gray-400">
+                                                        {new Date(p.last_visited).toLocaleString()}
+                                                    </span>
+                                                )}
+                                            </div>
                                             <span className="text-sm font-semibold text-indigo-600">{p.count}</span>
                                         </li>
                                     ))}
@@ -200,12 +212,19 @@ export default function Index({ stats, dailyChart, topPages, topCities, visitsBy
                                 <ul className="divide-y divide-gray-100">
                                     {topCities.map((c) => (
                                         <li key={`${c.city}-${c.country}`} className="flex items-center justify-between px-6 py-3">
-                                            <span className="text-sm text-gray-700">
-                                                {c.city}
-                                                {c.country && (
-                                                    <span className="ml-1.5 text-xs text-gray-400">{c.country}</span>
+                                            <div>
+                                                <span className="text-sm text-gray-700">
+                                                    {c.city}
+                                                    {c.country && (
+                                                        <span className="ml-1.5 text-xs text-gray-400">{c.country}</span>
+                                                    )}
+                                                </span>
+                                                {c.last_visited && (
+                                                    <span className="block text-[11px] text-gray-400">
+                                                        {new Date(c.last_visited).toLocaleString()}
+                                                    </span>
                                                 )}
-                                            </span>
+                                            </div>
                                             <span className="text-sm font-semibold text-indigo-600">{c.count}</span>
                                         </li>
                                     ))}
