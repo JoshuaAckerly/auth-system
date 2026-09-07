@@ -28,7 +28,7 @@ class SiteVisit extends Model
         'created_at' => 'datetime',
     ];
 
-    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot|powershell|symfony|http-client|libwww-perl|axios|node-fetch|postmanruntime|insomnia|okhttp|winhttp|guzzle/i';
+    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot|powershell|symfony|http-client|libwww-perl|axios|node-fetch|postmanruntime|insomnia|okhttp|winhttp|guzzle|mistralai|anthropic-ai/i';
 
     // Cloud/hosting ASN orgs (from ipinfo "org" field) are almost always scrapers, not real visitors
     private const HOSTING_ORG_PATTERN = '/amazon|aws|microsoft|azure|google|digitalocean|ovh|hetzner|linode|akamai|oracle|alibaba|tencent|cloudflare|vultr|choopa|contabo|scaleway|leaseweb|hostinger|godaddy|ionos|datacamp|m247|psychz|zenlayer|ddos-guard|colocrossing|hostwinds|namecheap/i';
