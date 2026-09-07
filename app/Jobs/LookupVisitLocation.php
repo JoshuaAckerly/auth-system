@@ -48,6 +48,7 @@ class LookupVisitLocation implements ShouldQueue
                     'city' => $data['city'] ?? null,
                     'region' => $data['region'] ?? null,
                     'country' => $data['country'] ?? null,
+                    'org' => $data['org'] ?? null,
                 ];
             } catch (\Exception $e) {
                 Log::warning('GeoIP lookup failed for '.$this->ip.': '.$e->getMessage());
@@ -57,6 +58,11 @@ class LookupVisitLocation implements ShouldQueue
         });
 
         if ($location) {
+            // Datacenter/hosting IPs (AWS, Azure, etc.) are scrapers even when the UA looks like a browser
+            if (SiteVisit::isHostingProvider($location['org'] ?? null)) {
+                $location['is_bot'] = true;
+            }
+
             SiteVisit::where('id', $this->visitId)->update($location);
         }
     }

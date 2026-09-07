@@ -16,6 +16,7 @@ class SiteVisit extends Model
         'city',
         'region',
         'country',
+        'org',
         'user_agent',
         'path',
         'referer',
@@ -29,15 +30,31 @@ class SiteVisit extends Model
 
     private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot/i';
 
+    // Cloud/hosting ASN orgs (from ipinfo "org" field) are almost always scrapers, not real visitors
+    private const HOSTING_ORG_PATTERN = '/amazon|aws|microsoft|azure|google|digitalocean|ovh|hetzner|linode|akamai|oracle|alibaba|tencent|cloudflare|vultr|choopa|contabo|scaleway|leaseweb|hostinger|godaddy|ionos|datacamp|m247|psychz|zenlayer|ddos-guard|colocrossing|hostwinds|namecheap/i';
+
     public static function isBot(?string $userAgent): bool
     {
         return empty($userAgent) || (bool) preg_match(self::BOT_PATTERN, $userAgent);
+    }
+
+    public static function isHostingProvider(?string $org): bool
+    {
+        return ! empty($org) && (bool) preg_match(self::HOSTING_ORG_PATTERN, $org);
     }
 
     // Uses indexed is_bot column — set at write time to avoid full table scans
     public function scopeHuman($query): void
     {
         $query->where('is_bot', false);
+
+        $excludedIps = config('analytics.excluded_ips', []);
+        if (! empty($excludedIps)) {
+            // NOT IN treats NULL ip_address as unknown/excluded in SQL, so allow nulls through explicitly
+            $query->where(function ($q) use ($excludedIps) {
+                $q->whereNull('ip_address')->orWhereNotIn('ip_address', $excludedIps);
+            });
+        }
     }
 
     public function user(): BelongsTo
