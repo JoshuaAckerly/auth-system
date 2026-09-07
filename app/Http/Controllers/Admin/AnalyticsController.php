@@ -182,6 +182,9 @@ class AnalyticsController extends Controller
             ->whereNotNull('ip_address')
             ->groupBy('ip_address')
             ->havingRaw('COUNT(*) >= 3')
+            // Real leads revisit a handful of key pages; scanners with 10+ hits mostly
+            // enumerate distinct paths (near 1:1 unique-pages-to-visits ratio) — exclude those
+            ->havingRaw('COUNT(*) < 10 OR COUNT(DISTINCT path) / COUNT(*) < 0.7')
             ->orderByDesc('visit_count')
             ->limit(50)
             ->get()

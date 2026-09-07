@@ -38,7 +38,7 @@ class SiteVisit extends Model
 
     // Paths only vulnerability scanners request — no real visitor types these into a browser.
     // Scanners routinely spoof legitimate browser user agents, so this check is UA-independent.
-    private const SCAN_PATH_PATTERN = '#\.\.|\.env|\.git/|wp-admin|wp-content|wp-login|wp-config|wp-json|xmlrpc\.php|phpmyadmin|\.aws/|\.ssh/|\.docker|eval-stdin|\.well-known/security|vendor/phpunit|config\.json$|config\.js$|\.htpasswd|\.htaccess|\.bak$|\.sql$|\.zip$|\.tar\.gz$|actuator|core/CHANGELOG|user/login|remote/login|rest/login|dana-na|WebInterface/Login|composer\.json$#i';
+    private const SCAN_PATH_PATTERN = '#\.\.|\.env|\.git/|wp-admin|wp-content|wp-login|wp-config|wp-json|xmlrpc\.php|phpmyadmin|\.aws/|\.ssh/|\.docker|eval-stdin|\.well-known/security|vendor/phpunit|config\.json$|config\.js$|\.htpasswd|\.htaccess|\.bak$|\.sql$|\.zip$|\.tar\.gz$|actuator|core/CHANGELOG|user/login|remote/login|rest/login|dana-na|WebInterface/Login|composer\.json$|mgmt/shared/authn|global-protect|tmui/login|fortisandbox|\.s3cfg|\.boto|s3cfg|s3credentials|aws-credentials|server-status|cacti|cpanel|administrator/|control/main|SetupWizard\.aspx#i';
 
     public static function isBot(?string $userAgent, ?string $ip = null, ?string $path = null): bool
     {
