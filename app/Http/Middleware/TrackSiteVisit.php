@@ -33,7 +33,7 @@ class TrackSiteVisit
                 'path' => '/'.ltrim($request->path(), '/'),
                 'referer' => $request->headers->get('referer'),
                 'created_at' => now(),
-                'is_bot' => SiteVisit::isBot($ua),
+                'is_bot' => SiteVisit::isBot($ua, $ip),
             ]);
 
             LookupVisitLocation::dispatch($visit->id, $ip);

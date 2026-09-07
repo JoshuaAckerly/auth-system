@@ -28,13 +28,20 @@ class SiteVisit extends Model
         'created_at' => 'datetime',
     ];
 
-    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot/i';
+    private const BOT_PATTERN = '/bot|crawler|spider|slurp|scan|wget|curl|python|go-http|java|ruby|nuclei|zgrab|nmap|nikto|sqlmap|masscan|facebookexternalhit|applebot|powershell|symfony|http-client|libwww-perl|axios|node-fetch|postmanruntime|insomnia|okhttp|winhttp|guzzle/i';
 
     // Cloud/hosting ASN orgs (from ipinfo "org" field) are almost always scrapers, not real visitors
     private const HOSTING_ORG_PATTERN = '/amazon|aws|microsoft|azure|google|digitalocean|ovh|hetzner|linode|akamai|oracle|alibaba|tencent|cloudflare|vultr|choopa|contabo|scaleway|leaseweb|hostinger|godaddy|ionos|datacamp|m247|psychz|zenlayer|ddos-guard|colocrossing|hostwinds|namecheap/i';
 
-    public static function isBot(?string $userAgent): bool
+    // Loopback IPs can never be a real internet visitor — always local/internal traffic
+    private const LOOPBACK_IPS = ['127.0.0.1', '::1', 'localhost'];
+
+    public static function isBot(?string $userAgent, ?string $ip = null): bool
     {
+        if ($ip !== null && in_array($ip, self::LOOPBACK_IPS, true)) {
+            return true;
+        }
+
         return empty($userAgent) || (bool) preg_match(self::BOT_PATTERN, $userAgent);
     }
 
