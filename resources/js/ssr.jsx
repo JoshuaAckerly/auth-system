@@ -60,5 +60,5 @@ createServer((page) =>
             return <App {...props} />;
         },
     }),
-    resolveSsrPort(),
+    { port: resolveSsrPort(), host: '127.0.0.1' },
 );
