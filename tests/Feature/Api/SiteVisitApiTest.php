@@ -23,7 +23,7 @@ class SiteVisitApiTest extends TestCase
     private function validPayload(array $overrides = []): array
     {
         return array_merge([
-            'host' => 'graveyardjokes.local',
+            'host' => 'graveyardjokes.test',
             'path' => '/about',
             'ip_address' => '192.168.1.1',
             'user_agent' => 'Mozilla/5.0',
@@ -40,7 +40,7 @@ class SiteVisitApiTest extends TestCase
 
         $response->assertOk()->assertJson(['ok' => true]);
         $this->assertDatabaseHas('site_visits', [
-            'host' => 'graveyardjokes.local',
+            'host' => 'graveyardjokes.test',
             'path' => '/about',
         ]);
     }
@@ -101,7 +101,7 @@ class SiteVisitApiTest extends TestCase
         Queue::fake();
 
         $this->withToken($this->token)
-            ->postJson('/api/site-visits', ['host' => 'graveyardjokes.local', 'path' => '/'])
+            ->postJson('/api/site-visits', ['host' => 'graveyardjokes.test', 'path' => '/'])
             ->assertOk()
             ->assertJson(['ok' => true]);
 
