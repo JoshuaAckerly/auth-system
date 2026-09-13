@@ -15,7 +15,7 @@ const localPorts = {
 
 const getProtocol = (): string => {
     const domain = getBaseDomain();
-    return domain === 'graveyardjokes.test' || domain === 'graveyardjokes.test' ? 'http' : 'https';
+    return domain === 'graveyardjokes.test' ? 'http' : 'https';
 };
 
 export const getMainSiteUrl = (): string => {
